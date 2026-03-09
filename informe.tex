@@ -1,0 +1,383 @@
+% --- INICIO DE PLANTILLA PERSONALIZADA ---
+\documentclass[oneside,11pt]{Latex/Classes/PhDthesisPSnPDF}
+
+% --- Paquetes Originales ---
+\usepackage{blindtext}
+\usepackage{actuarialangle} 
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{multirow, array}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+\usepackage{longtable}
+\usepackage{latexsym,amsmath,amssymb,amsfonts}
+\usepackage{enumitem}
+\usepackage{xparse}
+\usepackage{booktabs}
+\usepackage[round, sort, numbers]{natbib}  
+\usepackage{adjustbox}
+\usepackage[utf8]{inputenc}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{cleveref}
+
+% Definición de colores
+\definecolor{miblue}{RGB}{68, 114, 196}
+
+% --- CAMBIO CRÍTICO 1: Usar \input para macros en el preámbulo ---
+% \include da problemas antes del begin document. \input es seguro.
+\input{Latex/Macros/MacroFile1}
+
+% --- Definiciones de seguridad (por si la clase falla al cargar alguna variable) ---
+\providecommand{\facultad}[1]{\def\lafacultad{#1}}
+\providecommand{\escudofacultad}[1]{\def\elescudo{#1}}
+\providecommand{\degree}[1]{\def\elgrado{#1}}
+\providecommand{\director}[1]{\def\eldirector{#1}}
+\providecommand{\lugar}[1]{\def\ellugar{#1}}
+\providecommand{\degreedate}[1]{\def\lafecha{#1}}
+
+% --- Configuración para bloques de código de R (Pandoc) ---
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                         DATOS (Conectados a RMarkdown)                       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Análisis Descriptivo de la Productividad Agrícola en Distintas
+Regiones de la India Durante el Periodo 1997-2020}
+\author{Asly Caputo \\ Aymara Andersen}
+
+% Lógica para Facultad: Si la defines en el YAML la usa, si no, usa la default
+
+\facultad{Facultad de Ciencias Económicas y Sociales \\ Escuela de
+Estadistica y Ciencias Actuariales}
+  \escudofacultad{Latex/Classes/Escudos/faces}
+
+\degree{Computación I}
+\director{Jesus Ochoa \\ Oliver Triveño}
+\degreedate{Marzo 2026} 
+\lugar{Caracas}
+
+\portadatrue 
+
+% Metadatos PDF
+\keywords{}
+\subject{}
+
+% --- CORRECCIÓN PARA PANDOC NUEVO (Imágenes) ---
+\makeatletter
+\providecommand{\pandocbounded}[1]{#1}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                   DOCUMENTO                       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                  PRÓLOGO                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frontmatter
+
+% Puedes agregar dedicatorias desde el YAML si quieres, o dejarlas fijas aquí
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                   ÍNDICES                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\tableofcontents
+
+
+
+\cleardoublepage
+
+  \cleardoublepage       % Empieza en página derecha (estándar en tesis)
+  \chapter*{Resumen}     % Crea el título "Resumen" sin numeración (Capítulo *)
+  \addcontentsline{toc}{chapter}{Resumen} % (Opcional) Lo añade al índice
+  
+  El presente informe elabora un análisis estadístico descriptivo sobre
+la producción y rendimiento agrícola en distintas regiones de la India.
+Donde se busca estudiar el comportamiento de la producción y rendimiento
+de varios tipos de cultivos agrícolas, a nivel temporal, geográfico y
+general, aplicando técnicas estadísticas descriptivas y visualización de
+datos con
+R.             % Aquí se pega el texto que escribiste en el YAML
+  
+  \cleardoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                   CONTENIDO (El Corazón)          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mainmatter
+\def\baselinestretch{1.5}
+
+% --- CAMBIO CRÍTICO 2: Aquí RMarkdown inyecta todo tu texto ---
+\chapter*{Introducción}
+
+La agricultura es una de las actividades económicas más cruciales en la
+economía de cualquier país produciendo alimentos, materias primas y
+generando empleos a gran parte de la población. Asimismo, la India
+alberga una de las economías agrícolas más grandes del mundo con el
+7,5\% de la producción agrícola a nivel global, convirtiéndose en uno de
+los principales países productores agrícolas del mundo.
+
+A causa de esto, resulta de interés investigar estadísticamente el
+comportamiento del sector agrícola relacionado con la producción y
+rendimiento de varios cultivos en la India para responder algunas
+interrogantes de interés como: ¿Cuáles son las regiones con mayor
+producción? ¿Cuáles cultivos tienen mayor rendimiento? o ¿Cuánto ha
+crecido o decrecido su producción durante ese periodo de tiempo?
+
+Por eso, el presente estudio tiene como finalidad realizar un análisis
+estadístico descriptivo del conjunto de datos ``rendimiento de los
+cultivos agrícolas en los estados de la India'' que abarca datos
+agrícolas de múltiples cultivos plantados en varios estados de la India
+desde 1997 hasta 2020. Haciendo uso de herramientas para el análisis de
+datos del lenguaje de programación R y de técnicas de visualización de
+datos.
+
+\section*{Estructura de Informe}
+
+\begin{itemize}
+    \item \textbf{Capítulo I}, se define el enfoque y propósito del estudio, planteando la problemática del estudio, formulando las preguntas de la investigación, determinando el contexto, límites y objetivos del problema a investigar.
+    
+    \item \textbf{Capítulo II}, se establecen las bases teóricas necesarias para entender cómo abordar el problema de estudio, definiendo conceptos primordiales para la investigación y las técnicas estadísticas necesarias para la resolución del problema.
+    
+    \item \textbf{Capítulo III}, se describe la metodología utilizada para el análisis de los datos del estudio, esto incluye la descripción detallada del proceso de limpieza de datos (ETL) y las técnicas usadas para la validación de los datos.
+    
+    \item \textbf{Capítulo IV}, se realiza la exposición de los resultados del análisis, respondiendo a las interrogantes de la investigación planteadas en el capítulo I haciendo uso de distintas técnicas de visualización  de datos como tablas y gráficos.
+    
+    \item \textbf{Capítulo V}, se muestran las conclusiones y recomendaciones basadas en el análisis de los resultados expuestos.
+\end{itemize}
+
+Este estudio busca entender las características del sector agrícola de
+uno de los principales países productores agrícolas del mundo,
+analizando su avance y evolución a través del tiempo.
+
+\chapter{Planteamiento del Problema}
+
+La agricultura ha sido un sector económico de la India que ha ido
+evolucionando a través del tiempo, siendo actualmente uno de los países
+con mayor producción agrícola a nivel global, lo que lo hace uno de los
+sectores económicos más relevantes del país. Sin embargo, la agricultura
+también es un sector con una alta variabilidad cuando hablamos de
+rendimiento, dependiendo de factores como el tipo de cultivo sembrado y
+la zona geográfica en la que se encuentra, por lo que obtener una alta
+producción requiere de un análisis exhaustivo para obtener los mejores
+resultados.
+
+A nivel económico, la variabilidad del sector agrícola puede suponer un
+riesgo significativo a la hora de invertir en este sector, por lo que es
+necesario un estudio como mínimo la compatibilidad entre la región y el
+tipo de cultivo escogidos, así como su evolución a través del tiempo.
+
+Por eso, resulta de interés analizar estadísticamente el comportamiento
+y rendimiento de la producción agrícola en la India a nivel general,
+temporal y geográfico, ya que, independientemente de su gran nivel de
+producción, es necesario saber la distribución del sector para definir
+concretamente cual es el sitio más óptimo de inversión.\\
+
+A partir de esto, se plantean las siguientes preguntas de
+investigación:\\
+
+\textbf{1.} ¿Cuáles son las regiones con mayor y menor producción
+agrícola?\\
+
+\textbf{2.} ¿Cómo ha evolucionado la producción y rendimiento a través
+del tiempo?\\
+
+\textbf{3.} ¿Cómo afecta el tipo de cultivo en el área cultivada?\\
+
+\section{Justificación}
+
+El presente estudio tiene como justificación la necesidad de conocer e
+identificar estadísticamente la rentabilidad agrícola de una determinada
+zona únicamente con los factores básicos que afectan la producción
+agrícola, sin necesidad de tener un conocimiento profundo del área, lo
+que permite la toma rápida de mejores decisiones.
+
+Desde un punto estadístico, el explorar y analizar la variabilidad de
+este sector ayuda a manejar técnicas del análisis descriptivo, haciendo
+uso de herramientas tecnológicas como lo son los lenguajes R y Python.\\
+
+\section{Objetivos}
+
+\subsection{Objetivo General}
+
+Realizar un análisis descriptivo de la producción, área cultivada y
+rendimiento agrícola de las regiones de la India durante el periodo
+1997-2020.
+
+\subsection{Objetivos Específicos}
+\begin{itemize}
+  \item{Comparar la producción, área y rendimiento agrícolas total de la India durante todo el periodo de estudio.}
+  \item{Determinar la variabilidad de la producción, área y rendimiento agrícolas de cada región de la India durante el lapso de estudio.}
+  \item{Identificar la variabilidad de la producción, área y rendimiento agrícolas por tipo de cultivo registrados durante el tiempo de estudio.}
+  \item{Evaluar los cambios en la evolución histórica de la producción, área y rendimiento agrícola durante el periodo 1997-2020.}
+  \item{Cuantificar la relación de la producción de las regiones de la India y los tipos de cultivos.}
+\end{itemize}
+
+\section{Cobertura}
+
+\subsection{Horizontal}
+
+La cobertura horizontal abarca las características de cada cultivo
+registrado y distribuidas en 10 columnas, donde se consideran las
+dimensiones descriptivas del cultivo y las métricas del rendimiento
+junto con su relación entre diversos factores agronómicos.\\
+
+\begin{table}[ht]
+\centering
+\caption{Variables consideradas en el estudio} 
+\resizebox{12cm}{!} {
+\begin{tabular}{cll}
+  \hline
+  \textbf{TIPO} & \textbf{VARIABLE} & \textbf{DESCRIPCIÓN} \\ 
+  \hline
+  Categórica & Crop & Nombre del cultivo. \\ 
+  Númerica & Crop\_Year & El año en el que se sembró el cultivo. \\ 
+  Categórica & Season & Temporada de cultivo específica (ej: Kharif, Rabí, Whole Year). \\ 
+  Categórica & State & Estado de la India donde se sembró el cultivo. \\ 
+  Númerica & Area & Superficie total de tierra (en hectáreas) cultivada. \\ 
+  Númerica & Production & Cantidad de producción agrícola (en toneladas métricas) \\ 
+  Númerica & Annual\_Rainfall & La precipitación anual recibida en la región de cultivo (en mm) \\ 
+  Númerica & Fertilizer & Cantidad total de fertilizante utilizado para el cultivo (en kilogramos) \\ 
+  Númerica & Pesticide & Cantidad total de pesticida utilizado para el cultivo (en kilogramos). \\ 
+  Númerica & Yield & Rendimiento calculado del cultivo (producción por unidad de área). \\ 
+   \hline
+\end{tabular}
+}
+\end{table}
+
+\subsection{Vertical}
+
+La cobertura vertical del trabajo de investigación abarca un total de
+19,698 observaciones (registros) donde cada fila representa un cultivo
+específico y sus características correspondientes, con un alcance
+temporal que abarca desde el año 1997 hasta el año 2020.
+
+\section{Periodo de Referencia}
+
+La fuente de datos a estudiar corresponde al repositorio abierto de
+Kaggle (``Agricultural Crop Yield in Indian States Dataset''). Donde se
+toma como período de referencia los registros pertenecientes al
+intervalo de tiempo 1997-2020.
+
+\section{Variables}
+
+Para este estudio, se tomaron en cuenta como variables principales
+Production, Area y Yield, las cuales representan la toneladas
+producidas, las hectáreas cultivadas y su producción por área
+respectivamente.
+
+También se tomaron como variables explicativas:
+
+\begin{enumerate}
+  \item Variables Temporales: \textbf{Crop\_Year}
+  \item Variables Categóricas: \textbf{Crop}
+  \item Variables Geográficas: \textbf{State}
+\end{enumerate}
+
+\chapter{Marco Teórico}
+
+\section{Bases Teóricas}
+
+Resumen de las bases teoricas explicadas en el capitulo y su
+importancia\\
+
+\subsection{Definición 1}
+
+Descripción de la definición 1\\
+
+\subsection{Definición 2}
+
+Descripción de la definición 2\\
+
+\subsection{Definición n}
+
+Descripción de la definición n\\
+
+\chapter{Marco Metódico}
+
+En esta sección se presentan las metodologías y/o test necesarios
+relacionados con la práctica divulgada en el marco teórico, así como las
+fuentes de datos.
+
+\section{Bases metódicas utilizadas en el trabajo de investigación}
+
+Desarrollo\\
+
+\subsection{Item 1}
+
+Descripción\\
+
+\subsection{Item 2}
+
+Descripción\\
+
+\subsubsection{Item 2.2}
+
+Descripción\\
+
+\subsection{Item n}
+
+Descripción\\
+
+\chapter{Análisis de Resultados}
+
+\{\small Este capítulo presenta los resultados obtenidos al aplicar las
+metodologías descritas en el capítulo anterior, así como del análisis
+estadístico descriptivo de las variables estudiadas y las ventajas y
+desventajas al aplicar dichos tests.\}
+
+\section{Presentación de resultados 1}
+
+Descripción\\
+
+\section{Presentación de resultados 2}
+
+Descripción\\
+
+\section{Presentación de resultados n}
+
+Descripción\\
+
+\chapter{Conclusiones y Recomendaciones}
+
+\textbf{1.-} Conclusion 1 del trabajo de investigación.\\
+
+\textbf{Recomendación} Recomendación 1 del trabajo de investigación.\\
+
+\textbf{2.-} Conclusion 2 del trabajo de investigación.\\
+
+\textbf{Recomendación} Recomendación 2 del trabajo de investigación.\\
+
+\textbf{n.-} Conclusion n del trabajo de investigación.\\
+
+\textbf{Recomendación} Recomendación n del trabajo de investigación.\\
+
+\appendix
+\renewcommand{\thechapter}{\Alph{chapter}}
+
+\chapter{Anexo A}
+
+\chapter{Anexo B}
+
+\chapter{Anexo C}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                   REFERENCIAS                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Mantenemos la estructura natbib de tu plantilla
+\renewcommand{\bibname}{Lista de Referencias}
+\bibliographystyle{apalike} 
+\bibliography{bibliografia.bib} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                   APÉNDICES                       %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
