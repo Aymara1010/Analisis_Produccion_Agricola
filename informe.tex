@@ -115,7 +115,7 @@ R.             % Aquí se pega el texto que escribiste en el YAML
 \def\baselinestretch{1.5}
 
 % --- CAMBIO CRÍTICO 2: Aquí RMarkdown inyecta todo tu texto ---
-\chapter*{Introducción}
+\textbackslash chapter*\{Introducción\}
 
 La agricultura es una de las actividades económicas más cruciales en la
 economía de cualquier país produciendo alimentos, materias primas y
@@ -139,7 +139,7 @@ desde 1997 hasta 2020. Haciendo uso de herramientas para el análisis de
 datos del lenguaje de programación R y de técnicas de visualización de
 datos.
 
-\section*{Estructura de Informe}
+\textbackslash section*\{Estructura de Informe\}
 
 \begin{itemize}
     \item \textbf{Capítulo I}, se define el enfoque y propósito del estudio, planteando la problemática del estudio, formulando las preguntas de la investigación, determinando el contexto, límites y objetivos del problema a investigar.
@@ -285,20 +285,160 @@ También se tomaron como variables explicativas:
 
 \section{Bases Teóricas}
 
-Resumen de las bases teoricas explicadas en el capitulo y su
-importancia\\
+En este capítulo se desarrollarán los conceptos y fundamentos
+estadísticos necesarios para realizar el análisis estadístico necesario
+para cubrir los objetivos planteados anteriormente. Se abordarán
+conceptos como la tipología de cultivos, regiones agrícolas de la India
+y las medidas fundamentales para la Estadística descriptiva Univariante
+y Bivariante.
 
-\subsection{Definición 1}
+Estos conceptos son necesarios para comprender la metodología y
+resultados de análisis de este estudio y asociarlos al entorno agrícola
+de la investigación.\\
 
-Descripción de la definición 1\\
+\subsection{Tipología de Cultivos:}
 
-\subsection{Definición 2}
+La India diversifica su producción para satisfacer tanto el mercado
+interno como el global, en este estudio se analizan 50 variedades de
+cultivos, por lo que agruparlos puede resultar útil para algunos
+análisis específicos:
 
-Descripción de la definición 2\\
+\begin{itemize}
+ \item{**Cultivos Alimentarios:** Cereales y legumbres que forman la dieta básica. La India es líder mundial en la producción de legumbres (fuente principal de proteína para su población mayoritariamente vegetariana).}
+ \item{**Cultivos de Plantación:** Introducidos en gran medida durante la época colonial, se cultivan en grandes fincas para exportación. Destacan el té (Assam y Darjeeling), el café (Karnataka) y el caucho (Kerala).}
+ \item{**Cultivos Industriales o Comerciales:** Materias primas para la industria manufacturera. La caña de azúcar para el azúcar y el etanol, y el algodón para la potente industria textil india.}
+ \item{**Horticultura:** Incluye frutas, flores y especias. La India es el mayor productor mundial de especias (pimienta, cardamomo, cúrcuma) y mangos.}
+\end{itemize}
 
-\subsection{Definición n}
+\hfill\break
 
-Descripción de la definición n\\
+\subsection{Regiones Agrícolas de la India:}
+
+El país se puede dividir en zonas productivas clave, para el estudio,
+saber las zonas productivas nos da un indicio de cuáles cultivos pueden
+tener máyor producción en algunos estados que otras:
+
+\begin{itemize}
+\item{Región del Noroeste (Punjab, Haryana): Es la zona más tecnificada y rica. Produce la mayor parte del trigo y arroz del país.}
+\item{Valle del Ganges y Brahmaputra: Suelos aluviales extremadamente fértiles. Es el reino del arroz, el yute y la caña de azúcar.}
+\item{Cinturón de Suelo Negro (Maharashtra, Gujarat): Conocido como la "región del algodón". El suelo retiene muy bien la humedad, ideal para cultivos de fibra.}
+\item{Zonas de Plantación del Sur y Noreste: Las colinas de los Ghats Occidentales y Assam, donde el clima húmedo y la altitud permiten el cultivo de té, café y especias}
+\item{Zonas Áridas (Rajasthan): Se especializan en mijos y semillas oleaginosas que requieren mínima agua.}
+\end{itemize}
+
+\hfill\break
+
+\subsection{Estadística Descriptiva Univariante:}
+
+La estadística descriptiva univariante se centra en el análisis de
+datos, haciendo uso de herramientas para describir, tabular, representar
+y visualizar el comportamiento de una variable.
+
+Para este estudio, será necesario entender el comportamiento individual
+de la producción, el área cultivada y el rendimiento anual utilizando
+técnicas de la estadística descriptiva univariante.\\
+
+\subsection{Medidas de Posición:}
+
+Las medidas de posición, también llamadas fractiles o cuantiles, son
+utilizadas para facilitar la localización de un dato respecto de un
+conjunto de ellos. Para este estudio, se utilizarán:
+
+\begin{itemize}
+\item**Cuartiles:** Valores que dividen la serie en 4 partes iguales, cada una de ellas con un 25\% de los datos.
+
+$$P_k = \frac{k(n + 1)}{4}$$
+
+\item**Mediana:** Promedio no matemático que divide a la serie de datos de un estudio, en dos partes iguales, que representan cada una el 50\% de los datos.
+
+$$Me = \left(\frac{n+1}{2}\right)$$
+\end{itemize}
+
+\hfill\break
+
+\subsection{Medidas de Tendencia Central:}
+
+Son casos especiales de las medidas de posición, debido a su ubicación
+en la zona central de la distribución. Estas medidas, también son
+denominadas promedios.
+
+\begin{itemize}
+\item**Media Aritmética:** Es el valor resultante más “representativo” de la serie de datos, el punto de equilibrio, el centro de gravedad de la serie.
+$$\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}$$
+
+\item**Mediana:** Promedio no matemático que divide a la serie de datos de un estudio, en dos partes iguales, que representan cada una el 50\% de los datos.
+ $$Me = \left(\frac{n+1}{2}\right)$$
+
+
+\item**Moda:** Es un promedio no matemático representado por el valor con mayor número de ocurrencias dentro de la serie de datos.
+\end{itemize}
+
+\hfill\break
+
+\subsection{Medidas de Dispersión:}
+
+Tienen por objeto medir la magnitud de los desvíos de los valores de la
+variable con respecto al valor central de la distribución, es decir,
+definen cuán semejante o cuán distinto son cada uno de los valores, de
+la variable con respecto al valor central.
+
+\begin{itemize}
+\item**Rango Intercuartílico:** constituye la máxima diferencia posible entre dos valores entre el 50\% de los datos centrales.
+
+$$IQR = Q_3 - Q_1$$
+
+\item**Varianza:** Es el promedio cuadrático de los desvíos de los datos respecto de la media aritmética.
+
+$$\sigma^2 = \frac{\sum_{i=1}^{N} (x_i - \mu)^2}{N}$$
+
+\item**Desviación Típica:** Es la raíz cuadrada positiva de la varianza. Constituye el índice de dispersión más usado y más confiable.
+
+$$s = \sqrt{s^2} = \sqrt{\frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n}}$$
+
+\item**Coeficiente de Variación de Pearson:** Es el cociente entre la desviación estándar y la media aritmética, multiplicado por cien. Es el coeficiente de dispersión relativa de más amplio uso.
+
+$$CV =  \frac{s}{\bar{x}} \times 100\%$$
+\end{itemize}
+
+\hfill\break
+
+\subsection{Estadística Descriptiva Bivariante:}
+
+La estadística descriptiva bivariante analiza la relación entre dos
+variables donde se busca resumir y describir la información conjunta de
+ambos conjuntos de datos, para identificar patrones y tendencias
+
+En este estudio resulta de interés conocer a fondo el tipo de relación
+que hay entre cada una de las variables, tanto numéricas como
+categóricas, para saber la influencia que tienen una sobre a otra.\\
+
+\subsection{Medidas de Dispersión Conjunta:}
+
+\begin{itemize}
+\item**Coeficiente de Correlación de Pearson:** Es una medida que da cuenta del sentido, dirección e intensidad o magnitud de la relación lineal entre dos variables cuantitativas.
+
+$$r = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{n\cdot\sqrt{\sum_{i=1}^{n}) (x_i - \bar{x})^2} \cdot \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}}$$
+\end{itemize}
+
+\hfill\break
+
+\subsection{Método de Detección de Datos Atípicos:}
+\subsection{Prueba de Tukey:}
+
+verifica múltiples valores atípicos en ambos lados, categorizados como
+valores ``externos'' o ``muy alejados''. En este caso los límites son:
+
+\begin{itemize}
+\item**Límites internos:** Se consideran atípicas leves aquellas observaciones alejadas del 1er y 3er cuartil, respectivamente, más 1,5 veces el Recorrido Intercuartílico 
+
+$$X_i \le Q_1 - 1,5RI \quad \text{o} \quad X_i \ge Q_3 + 1,5RI$$
+
+\item**Límites externos:** Se consideran atípicas extremas aquellas observaciones alejadas del 1er y 3er cuartil, respectivamente, más de 3 veces el Recorrido Intercuartílico
+
+$$X_i \le Q_1 - 3RI \quad \text{o} \quad X_i \ge Q_3 + 3RI$$
+\end{itemize}
+
+\textbackslash{}
 
 \chapter{Marco Metódico}
 

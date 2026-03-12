@@ -1,6 +1,6 @@
 ## Instalamos librerias necesarias 
 install.packages("usethis")
-install.packages("gitcreds")
+install.packages("tidyverse")
 
 ## Cargamos libreria y configuramos
 library(usethis)
