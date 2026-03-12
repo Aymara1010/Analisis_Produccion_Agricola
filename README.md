@@ -62,7 +62,7 @@ Realizar un análisis descriptivo de la producción, área cultivada y rendimien
 
 2.  Determinar la variabilidad de la producción, área y rendimiento agrícolas de cada región de la India durante el lapso de estudio.
 
-3.  Identificar la variabilidad de la producción, área y rendimiento agrícolas por tipo de cultivo registrados durante el tiempo de estudio.
+3.  Identificar el impacto que tiene el área de cultivo según su tipo.
 
 4.  Evaluar los cambios en la evolución histórica de la producción, área y rendimiento agrícola durante el periodo 1997-2020.
 
