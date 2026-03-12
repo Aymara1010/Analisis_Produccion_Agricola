@@ -2,7 +2,13 @@
 
 La agricultura es una de las actividades económicas más cruciales en la economía de cualquier país produciendo alimentos, materias primas y generando empleos a gran parte de la población. Asimismo, la India alberga una de las economías agrícolas más grandes del mundo con el 7,5% de la producción agrícola a nivel global, convirtiéndose en uno de los principales países productores agrícolas del mundo.
 
-A causa de esto, resulta de interés investigar estadísticamente el comportamiento del sector agrícola relacionado con la producción y rendimiento de varios cultivos en la India para responder algunas interrogantes de interés como: ¿Cuáles son las regiones con mayor producción? ¿Cuáles cultivos tienen mayor rendimiento? o ¿Cuánto ha crecido o decrecido su producción durante ese periodo de tiempo?
+A causa de esto, resulta de interés investigar estadísticamente el comportamiento del sector agrícola relacionado con la producción y rendimiento de varios cultivos en la India para responder algunas interrogantes de interés como: 
+
+1.  ¿Cuáles son las regiones con mayor y menor producción agrícola?
+
+2.  ¿Cómo ha evolucionado la producción y rendimiento a través del tiempo?
+
+3.  ¿Cómo afecta el tipo de cultivo en el área cultivada?
 
 Por eso, el presente estudio tiene como finalidad realizar un análisis estadístico descriptivo del conjunto de datos “rendimiento de los cultivos agrícolas en los estados de la India” que abarca datos agrícolas de múltiples cultivos plantados en varios estados de la India desde 1997 hasta 2020. Haciendo uso de herramientas para el análisis de datos del lenguaje de programación R y de técnicas de visualización de datos.
 
