@@ -298,7 +298,7 @@ $$X_i \le Q_1 - 3RI \quad \text{o} \quad X_i \ge Q_3 + 3RI$$
 
 \chapter{Marco Metódico}
 
-En esta sección se presentan las metodologías y/o test necesarios relacionados con la práctica divulgada en el marco teórico, así como las fuentes de datos sont worry be happy.
+En esta sección se presentan las metodologías y/o test necesarios relacionados con la práctica divulgada en el marco teórico, así como las fuentes de datos sont worry be happy, ilysm.
 
 \section{Bases metódicas utilizadas en el trabajo de investigación}
 
