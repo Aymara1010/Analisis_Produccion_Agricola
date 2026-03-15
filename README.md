@@ -34,7 +34,7 @@ La agricultura ha sido un sector económico de la India que ha ido evolucionando
 
 A nivel económico, la variabilidad del sector agrícola puede suponer un riesgo significativo a la hora de invertir en este sector, por lo que es necesario un estudio como mínimo la compatibilidad entre la región y el tipo de cultivo escogidos, así como su evolución a través del tiempo.
 
-Por eso, resulta de interés analizar estadísticamente el comportamiento y rendimiento de la producción agrícola en la India a nivel general, temporal y geográfico, ya que, independientemente de su gran nivel de producción, es necesario saber la distribución del sector para definir concretamente cual es el sitio más óptimo de inversión.
+Por eso, resulta de interés analizar estadísticamente el comportamiento y rendimiento de la producción agrícola en la India a nivel general, temporal y geográfico, ya que, independientemente de su gran nivel de producción, es necesario saber la distribución del sector para definir concretamente cual es el sitio más óptimo de inversión .
 
 A partir de esto, se plantean las siguientes preguntas de investigación:
 
@@ -66,4 +66,4 @@ Realizar un análisis descriptivo de la producción, área cultivada y rendimien
 
 4.  Evaluar los cambios en la evolución histórica de la producción, área y rendimiento agrícola durante el periodo 1997-2020.
 
-5.  Cuantificar la relación de la producción de las regiones de la India y los tipos de cultivos.
+5. observar de la producción de las regiones de la India y los tipos de cultivos.
