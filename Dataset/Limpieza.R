@@ -1,5 +1,5 @@
 library("tidyverse")
-
+options(scipen = 999)
 # Leer Archivo
 
 agricultura <- read.csv("Agricultura.csv")
@@ -85,9 +85,22 @@ datos_atipicos <- data.frame(
 
 # Gráficos de Caja y Bigote (ESTÁN FEOS YA SE ARREGLARÁ):
 # Producción:
-ggplot(df, aes(Type_Crop, Production, colour = Type_Crop)) +
+ggplot(df, aes(Type_Crop, Production, fill = Type_Crop)) +
   geom_boxplot() +
-  scale_y_log10()
+  scale_y_log10() +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_blank(),
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5)
+  ) +
+  labs(
+    title = "Boxplot de la Producción Agricola dado el Tipo de Cultivo",
+    subtitle = "Observación de datos atipicos",
+    x = "Tipo de Cultivo",
+    y = "Producción Agrícola (ton)",
+    fill = "Type_Crop"
+  )
 
 # Area:
 ggplot(df, aes(Type_Crop, Area, colour = Type_Crop)) +
