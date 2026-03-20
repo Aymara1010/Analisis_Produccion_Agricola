@@ -54,16 +54,14 @@ Desde un punto estadístico, el explorar y analizar la variabilidad de este sect
 
 ### Objetivo General
 
-Realizar un análisis descriptivo de la producción, área cultivada y rendimiento agrícola de las regiones de la India durante el periodo 1997-2020.
+Realizar un análisis descriptivo de la producción, área cultivada y rendimiento agrícola de las regiones de la India durante el periodo 1997-2009.
 
 ### Objetivos Específicos
 
 1.  Comparar la producción, área y rendimiento agrícolas total de la India durante todo el periodo de estudio.
 
-2.  Determinar la variabilidad de la producción, área y rendimiento agrícolas de cada región de la India durante el lapso de estudio.
+2.  Clasificar los tipos de cultivos según el área cultivada.
 
-3.  Identificar el impacto que tiene el área de cultivo según su tipo.
+3.  Evaluar los cambios en la evolución histórica de la producción, área y rendimiento agrícola durante el periodo 1997-2009.
 
-4.  Evaluar los cambios en la evolución histórica de la producción, área y rendimiento agrícola durante el periodo 1997-2020.
-
-5. observar de la producción de las regiones de la India y los tipos de cultivos.
+4. Explicar la distribución de la producción dado la región y tipo de cultivo.
