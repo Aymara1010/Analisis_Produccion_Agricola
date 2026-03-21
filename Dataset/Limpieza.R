@@ -1,4 +1,5 @@
 library("tidyverse")
+
 options(scipen = 999)
 # Leer Archivo
 
@@ -103,14 +104,37 @@ ggplot(df, aes(Type_Crop, Production, fill = Type_Crop)) +
   )
 
 # Area:
-ggplot(df, aes(Type_Crop, Area, colour = Type_Crop)) +
+ggplot(df, aes(Type_Crop, Area, fill = Type_Crop)) +
   geom_boxplot() +
-  scale_y_log10()
+  scale_y_log10() +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_blank(),
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5)
+  ) + labs(
+    title = "Boxplot del Total de Área Cultiva dado el Tipo de Cultivo",
+    subtitle = "Observación de datos atipicos",
+    x = "Tipo de Cultivo",
+    y = "Área Cultivada (hec)",
+    fill = "Type_Crop"
+  )
 
 # Rendimiento:
-ggplot(df, aes(Type_Crop, Yield, colour = Type_Crop)) +
+ggplot(df, aes(Type_Crop, Yield, fill = Type_Crop)) +
   geom_boxplot() +
-  scale_y_log10()
+  scale_y_log10() +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_blank(),
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5)
+  ) + labs(
+    title = "Boxplot del Rendimiento por hétarea dado el Tipo de Cultivo",
+    subtitle = "Observación de datos atipicos",
+    x = "Tipo de Cultivo",
+    y = "Rendimiento (ton/hec)"
+  )
 
 
 # Gráficos de disperción (NO OFICIAL):
@@ -118,22 +142,51 @@ ggplot(df, aes(Type_Crop, Yield, colour = Type_Crop)) +
 ggplot(df, aes(Production, Yield, colour = Type_Crop)) +
   geom_point() +
   scale_x_log10() +
-  scale_y_log10()
+  scale_y_log10() +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5)
+  ) +
+  labs(
+    title = "Disperción de la Producción y el Rendimientos Dado el Tipo de Cultivo",
+    subtitle = "Producción vs Rendimiento",
+    x = "Producción Agrícola (ton)",
+    y = "Rendimiento (ton/hec)"
+  )
 
 # Producción vs Area
 ggplot(df, aes(Production, Area, colour = Type_Crop)) +
   geom_point() +
   scale_x_log10() +
-  scale_y_log10()
+  scale_y_log10() +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5)
+  ) +
+  labs(
+    title = "Disperción de la Producción y Área Cultivada Dado el Tipo de Cultivo",
+    subtitle = "Producción vs Área",
+    x = "Producción Agrícola (ton)",
+    y = "Área Cultivada (hec)"
+  )
 
 # Area vs Rendimiento
 ggplot(df, aes(Area, Yield, colour = Type_Crop)) +
   geom_point() +
   scale_x_log10() +
-  scale_y_log10()
-
-
-
-
+  scale_y_log10()+
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5)
+  ) +
+  labs(
+    title = "Disperción del Área y Rendimiento Cultivada Dado el Tipo de Cultivo",
+    subtitle = "Rendimiento vs Área",
+    x = "Área Cultivada (hec)",
+    y = "Rendimiento (ton/hec)"
+  )
 
 

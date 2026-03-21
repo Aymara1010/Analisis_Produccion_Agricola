@@ -8,7 +8,7 @@ library(pak)
 library(viridis)
 
 # Carga de df
-df_india <- read.csv("27. Agricultura.csv")
+df_india <- read.csv("Agricultura.csv")
 
 # 2. Preparar los datos
 # Agrupamos por estado ('State') y calculamos una métrica de fertilización.
