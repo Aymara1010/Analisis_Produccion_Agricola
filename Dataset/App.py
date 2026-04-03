@@ -21,6 +21,33 @@ df = cargar_df()
 st.title("Análisis Producción Agricola en la India (1997-2009)")
 st.markdown("Análisis Descriptivo de la Productividad Agrícola en Distintas Regiones de la India Durante el Periodo 1997-2009")
 
+# FILTROS --------------------------------------------------------------------------------------------------------
+
+with st.sidebar:
+    # TITULO
+    st.title("🌱 Análisis Producción Agricola en la India (1997-2009)")
+    st.divider()
+    st.header("Filtros de Búsqueda")
+    
+    # REGIONES
+    with st.container(border=True):
+        st.write("filtros de región (multiselect)")
+    # CULTIVOS
+    with st.container(border=True):
+        st.write("filtros de Cultivo (multiselect)")
+    # TIEMPO
+    with st.container(border=True):
+        st.write("filtros de Fecha (slidebar)")
+    # VARIABLE NUMERICA
+    with st.container(border=True):
+        st.write("selección de variable (select)")
+        
+    # TRABAJO FINAL
+    st.divider()
+    st.markdown("""Trabajo Final Computación I """)
+    st.markdown("""Creado por: Asly Caputo y Aymara Andersen """)
+# ----------------------------------------------------------------------------------------------------------------
+
 with st.expander("Agricultura.csv"):
     st.dataframe(df.head(5), use_container_width=True)
 
@@ -168,7 +195,45 @@ with pag2:
         
 # PAGINA 3: (Comparaciones) --------------------------------------------------------------------------------------------------------------------            
          
-          
+with pag3:
+    col51, col52, col53 = st.columns(3)
+    
+    # METRICAS ---------------------------------------------------------------
+    with col51:
+        with st.container(border=True):
+            st.write("Desviación Tipica para produccion")
+    with col52:
+        with st.container(border=True):
+            st.write("Desviación Tipica para Area")
+    with col53:
+        with st.container(border=True):
+            st.write("Desviación Tipica para Rendimiento")  
+    # ------------------------------------------------------------------------
+    
+    col61, col62 = st.columns(2)
+    
+    # GRAFICOS A LA IZQUIERDA ------------------------------------------------
+    with col61:
+        
+        with st.container(border=True):
+            st.write("Matriz de Correlación")
+            
+        with st.container(border=True):
+            st.write("Grafico de Lineas")
+    # ------------------------------------------------------------------------
+    
+    # GRAFICOS A LA DERECHA --------------------------------------------------
+    with col62:
+        
+        with st.container(border=True):
+            st.write("Grafico de Disperción")
+        
+        with st.container(border=True):
+            st.write("Analisis de resultados")
+    # ------------------------------------------------------------------------
+                
+
+
          
          
 
