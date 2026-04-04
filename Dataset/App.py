@@ -53,96 +53,76 @@ with st.expander("Agricultura.csv"):
 
 # Separación de Páginas Principales:
 
-pag1 , pag2, pag3 = st.tabs([
-    "🌏 Análisis General",
-    "📈 Distribución",
+pag1 , pag2, pag3, pag4 = st.tabs([
+    "Producción",
+    "Área Cultivada",
+    "Rendimiento",
     "🆚 Comparaciones"
 ])
 
-# PAGINA 1: (Analisis de Variables Cátegoricas)  -----------------------------------------------------------------------------------------
-
 with pag1:
-
-    col11, col12, col13, col14 = st.columns(4)
+    
+    col1, col2, col3, col4 = st.columns(4)
     
     # METRCAS ------------------------------------------
-    with col11:
+    with col1:
         with st.container(border=True):
             st.write("""metrica 1
                      (Producción Total)""")
     
-    with col12:
+    with col2:
         with st.container(border=True):
             st.write("""metrica 2
-                     (Area Cultivada Total)""")
+                     (Media)""")
     
-    with col13:
+    with col3:
         with st.container(border=True):
             st.write("""metrica 3
-                     (Rendimiento Total)""")
+                     (CV %)""")
     
-    with col14:
+    with col4:
         with st.container(border=True):
             st.write("""metrica 4
                      (Top "mejor" Estado)""")
     # -----------------------------------------------------
     
-    # GRAFICAS NIVEL 1 -------------------------------------
+    st.header("Analisis General")
+    st.divider()
     
-    col21, col22 = st.columns(2)
+    col5, col6 = st.columns(2)
     
-    with col21: # MAPA GEOGRAFICO
+    with col5: # MAPA GEOGRAFICO
         with st.container(border=True):
             st.write("""Grafico de calor
                      (Mapa de la India)""")
     
-    with col22: # SECTORES Y DISPERCIÓN
+    with col6: # SECTORES Y DISPERCIÓN
         
         with st.container(border=True):
             st.write("""Grafico boxplot por tipo de cultivo""")
         
-        col221, col222 = st.columns(2)
+        col7, col8 = st.columns(2)
         
-        with col221:
+        with col7:
             with st.container(border=True):
                st.write("""Grafico de sectores
-                        (Para Area cultivada)""")
+                        (Para Tipo de Cultivo)""")
                
-        with col222:
+        with col8:
             with st.container(border=True):
                st.write("Interpretación de resultados (resumen)")
-    # -------------------------------------------------------------------------
     
-    # GRAFICO NIVEL 2 ---------------------------------------------------------
+    
     with st.container(border=True):
         st.write("gráfico de barras (para estado estado y tipo de cultivo)")  
-    #--------------------------------------------------------------------------
-
-# PAGINA 2 (Analisis de la distribución de Variables numericas) ---------------------------------------------------------------------------
-
-with pag2:
+     
+   
+    st.header("Analisis de Distribucion")
+    st.divider()
     
-     col31, col32, col33, col34 = st.columns(4)
+    col9, col10 = st.columns(2)
      
-     # METRICAS ---------------------------------------------------------------
-     with col31:
-         with st.container(border=True):
-             st.write("Media")
-     with col32:
-        with st.container(border=True):
-            st.write("Mediana")
-     with col33:
-         with st.container(border=True):
-             st.write("Moda")
-     with col34:
-        with st.container(border=True):
-            st.write("CV %")
-     # ---------------------------------------------------------------------------------
-     
-     # GRAFICAS A LA IZQUIERDA ---------------------------------------------------------
-     col41, col42 = st.columns(2)
-     
-     with col41:
+    with col9:
          with st.container(border=True):
              st.write("Historigrama")
              
@@ -151,16 +131,16 @@ with pag2:
      # ----------------------------------------------------------------------------------
      
      # GRAFICAS A LA DERECHA ------------------------------------------------------------
-     with col42:
+    with col10:
          with st.container(border=True):
-             sub11 , sub12 = st.tabs([
+             sub1 , sub2 = st.tabs([
              "Regiones",
              "Cultivos"
               ])
              
-             with sub11:
+             with sub1:
                  st.write("Barras de Divergencia para Regiones")
-             with sub12:
+             with sub2:
                  st.write("Barras de Divergencia para Cultivos")
                  
          with st.container(border=True):
@@ -168,52 +148,273 @@ with pag2:
       # -----------------------------------------------------------------------------------   
       
       # GRAFICA DE ABAJO ------------------------------------------------------------------        
-     sub21 , sub22 = st.tabs([
+    sub3 , sub4 = st.tabs([
              "Top Regiones",
              "Top Cultivos"
               ])         
      
-     with sub21:
-         col421, col422 = st.columns(2) 
+    with sub3:
+         col11, col12 = st.columns(2) 
          
-         with col421:
+         with col11:
              with st.container(border=True):
                  st.write("Top Mejores Regiones")
-         with col422:
+         with col12:
              with st.container(border=True):
                  st.write("Top Mejores Regiones")
                  
-     with sub22:
-         col423, col424 = st.columns(2) 
-         with col423:
+    with sub4:
+         col13, col14 = st.columns(2) 
+         with col13:
              with st.container(border=True):
                  st.write("Top Mejores Cultivos")
-         with col424:
+         with col14:
              with st.container(border=True):
                  st.write("Top Mejores Cultivos")
         # --------------------------------------------------------------------
+
+with pag2:
+    col21, col22, col23, col24 = st.columns(4)
+    
+    with col21:
+        with st.container(border=True):
+            st.write("""metrica 1
+                     (Producción Total)""")
+    
+    with col22:
+        with st.container(border=True):
+            st.write("""metrica 2
+                     (Media)""")
+    
+    with col23:
+        with st.container(border=True):
+            st.write("""metrica 3
+                     (CV %)""")
+    
+    with col24:
+        with st.container(border=True):
+            st.write("""metrica 4
+                     (Top "mejor" Estado)""")
+   
+    st.header("Análisis General")
+    st.divider()
+    
+    col25, col26 = st.columns(2)
+    
+    with col25: # MAPA GEOGRAFICO
+        with st.container(border=True):
+            st.write("""Grafico de calor
+                     (Mapa de la India)""")
+    
+    with col26: # SECTORES Y DISPERCIÓN
         
-# PAGINA 3: (Comparaciones) --------------------------------------------------------------------------------------------------------------------            
+        with st.container(border=True):
+            st.write("""Grafico boxplot por tipo de cultivo""")
+        
+        col27, col28 = st.columns(2)
+        
+        with col27:
+            with st.container(border=True):
+               st.write("""Grafico de sectores
+                        (Para Area cultivada)""")
+               
+        with col28:
+            with st.container(border=True):
+               st.write("Interpretación de resultados (resumen)")
+    # -------------------------------------------------------------------------
+    
+    # GRAFICO NIVEL 2 ---------------------------------------------------------
+    with st.container(border=True):
+        st.write("gráfico de barras (para estado estado y tipo de cultivo)")  
+    #--------------------------------------------------------------------------
+    #DISTRIBUCION
+    st.header("Análisis de Distribución")
+    st.divider()
+    # GRAFICAS A LA IZQUIERDA ---------------------------------------------------------
+    col29, col210 = st.columns(2)
+     
+    with col29:
+         with st.container(border=True):
+             st.write("Historigrama")
+             
+         with st.container(border=True):
+             st.write("Grafico de Lineas")
+     # ----------------------------------------------------------------------------------
+     
+     # GRAFICAS A LA DERECHA ------------------------------------------------------------
+    with col210:
+         with st.container(border=True):
+             sub5 , sub6 = st.tabs([
+             "Regiones",
+             "Cultivos"
+              ])
+             
+             with sub5:
+                 st.write("Barras de Divergencia para Regiones")
+             with sub6:
+                 st.write("Barras de Divergencia para Cultivos")
+                 
+         with st.container(border=True):
+             st.write("Analisis de Resultados")        
+      # -----------------------------------------------------------------------------------   
+      
+      # GRAFICA DE ABAJO ------------------------------------------------------------------        
+    sub7 , sub8 = st.tabs([
+             "Top Regiones",
+             "Top Cultivos"
+              ])         
+     
+    with sub7:
+         col211, col212 = st.columns(2) 
          
+         with col211:
+             with st.container(border=True):
+                 st.write("Top Mejores Regiones")
+         with col212:
+             with st.container(border=True):
+                 st.write("Top Mejores Regiones")
+                 
+    with sub8:
+         col213, col214 = st.columns(2) 
+         with col213:
+             with st.container(border=True):
+                 st.write("Top Mejores Cultivos")
+         with col214:
+             with st.container(border=True):
+                 st.write("Top Mejores Cultivos")
+                 
 with pag3:
-    col51, col52, col53 = st.columns(3)
+    col31, col32, col33, col34 = st.columns(4)
+    
+    # METRCAS ------------------------------------------
+    with col31:
+        with st.container(border=True):
+            st.write("""metrica 1
+                     (Producción Total)""")
+    
+    with col32:
+        with st.container(border=True):
+            st.write("""metrica 2
+                     (Media)""")
+    
+    with col33:
+        with st.container(border=True):
+            st.write("""metrica 3
+                     (CV %)""")
+    
+    with col34:
+        with st.container(border=True):
+            st.write("""metrica 4
+                     (Top "mejor" Estado)""")
+    # -----------------------------------------------------
+    #CATEGORIAS
+    st.header("Análisis General")
+    st.divider()
+    # GRAFICAS NIVEL 1 -------------------------------------
+    
+    col35, col36 = st.columns(2)
+    
+    with col35: # MAPA GEOGRAFICO
+        with st.container(border=True):
+            st.write("""Grafico de calor
+                     (Mapa de la India)""")
+    
+    with col36: # SECTORES Y DISPERCIÓN
+        
+        with st.container(border=True):
+            st.write("""Grafico boxplot por tipo de cultivo""")
+        
+        col37, col38 = st.columns(2)
+        
+        with col37:
+            with st.container(border=True):
+               st.write("""Grafico de sectores
+                        (Para Area cultivada)""")
+               
+        with col38:
+            with st.container(border=True):
+               st.write("Interpretación de resultados (resumen)")
+    # -------------------------------------------------------------------------
+    
+    # GRAFICO NIVEL 2 ---------------------------------------------------------
+    with st.container(border=True):
+        st.write("gráfico de barras (para estado estado y tipo de cultivo)")  
+    #--------------------------------------------------------------------------
+    #DISTRIBUCION
+    st.header("Análisis de Distribución")
+    st.divider()
+    # GRAFICAS A LA IZQUIERDA ---------------------------------------------------------
+    col39, col310 = st.columns(2)
+     
+    with col39:
+         with st.container(border=True):
+             st.write("Historigrama")
+             
+         with st.container(border=True):
+             st.write("Grafico de Lineas")
+     # ----------------------------------------------------------------------------------
+     
+     # GRAFICAS A LA DERECHA ------------------------------------------------------------
+    with col310:
+         with st.container(border=True):
+             sub9 , sub10 = st.tabs([
+             "Regiones",
+             "Cultivos"
+              ])
+             
+             with sub9:
+                 st.write("Barras de Divergencia para Regiones")
+             with sub10:
+                 st.write("Barras de Divergencia para Cultivos")
+                 
+         with st.container(border=True):
+             st.write("Analisis de Resultados")        
+      # -----------------------------------------------------------------------------------   
+      
+      # GRAFICA DE ABAJO ------------------------------------------------------------------        
+    sub11 , sub12 = st.tabs([
+             "Top Regiones",
+             "Top Cultivos"
+              ])         
+     
+    with sub11:
+         col311, col312 = st.columns(2) 
+         
+         with col311:
+             with st.container(border=True):
+                 st.write("Top Mejores Regiones")
+         with col312:
+             with st.container(border=True):
+                 st.write("Top Mejores Regiones")
+                 
+    with sub12:
+         col313, col314 = st.columns(2) 
+         with col313:
+             with st.container(border=True):
+                 st.write("Top Mejores Cultivos")
+         with col314:
+             with st.container(border=True):
+                 st.write("Top Mejores Cultivos")
+
+with pag4:
+    col41, col42, col43 = st.columns(3)
     
     # METRICAS ---------------------------------------------------------------
-    with col51:
+    with col41:
         with st.container(border=True):
             st.write("Desviación Tipica para produccion")
-    with col52:
+    with col42:
         with st.container(border=True):
             st.write("Desviación Tipica para Area")
-    with col53:
+    with col43:
         with st.container(border=True):
             st.write("Desviación Tipica para Rendimiento")  
     # ------------------------------------------------------------------------
     
-    col61, col62 = st.columns(2)
+    col44, col45 = st.columns(2)
     
     # GRAFICOS A LA IZQUIERDA ------------------------------------------------
-    with col61:
+    with col44:
         
         with st.container(border=True):
             st.write("Matriz de Correlación")
@@ -223,7 +424,7 @@ with pag3:
     # ------------------------------------------------------------------------
     
     # GRAFICOS A LA DERECHA --------------------------------------------------
-    with col62:
+    with col45:
         
         with st.container(border=True):
             st.write("Grafico de Disperción")
@@ -231,20 +432,4 @@ with pag3:
         with st.container(border=True):
             st.write("Analisis de resultados")
     # ------------------------------------------------------------------------
-                
-
-
-         
-         
-
-             
-             
-             
-         
-     
-        
-        
     
-    
-
-
