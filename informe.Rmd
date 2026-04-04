@@ -1,6 +1,6 @@
 ---
 # --- Metadatos Básicos ---
-title: "Análisis Descriptivo de la Productividad Agrícola en Distintas Regiones de la India Durante el Periodo 1997-2009"
+title: "Análisis Descriptivo de la Productividad Agrícola en Distintas Regiones de la India Durante el Periodo 1997-2020"
 author:
    - Asly Caputo
    - Aymara Andersen
@@ -55,7 +55,7 @@ library(kableExtra)
 library(scales)
 ```
 
-\chapter*{Introducción}
+\\chapter\*{Introducción}
 
 La agricultura es una de las actividades económicas más cruciales en la economía de cualquier país produciendo alimentos, materias primas y generando empleos a gran parte de la población. Asimismo, la India alberga una de las economías agrícolas más grandes del mundo con el 7,5% de la producción agrícola a nivel global, convirtiéndose en uno de los principales países productores agrícolas del mundo.\
 
@@ -67,9 +67,9 @@ A causa de esto, resulta de interés investigar estadísticamente el comportamie
 
 \textbf{3.} ¿Cómo afecta el tipo de cultivo en el área cultivada?\
 
-Por eso, el presente estudio tiene como finalidad realizar un análisis estadístico descriptivo del conjunto de datos “rendimiento de los cultivos agrícolas en los estados de la India” que abarca datos agrícolas de múltiples cultivos plantados en varios estados de la India desde 1997 hasta 2009. Haciendo uso de herramientas para el análisis de datos del lenguaje de programación R y de técnicas de visualización de datos.\
+Por eso, el presente estudio tiene como finalidad realizar un análisis estadístico descriptivo del conjunto de datos “rendimiento de los cultivos agrícolas en los estados de la India” que abarca datos agrícolas de múltiples cultivos plantados en varios estados de la India desde 1997 hasta 2020. Haciendo uso de herramientas para el análisis de datos del lenguaje de programación R y de técnicas de visualización de datos.\
 
-\section*{Estructura de Informe}
+\\section\*{Estructura de Informe}
 
 \begin{itemize}
 
@@ -113,15 +113,16 @@ Desde un punto estadístico, el explorar y analizar la variabilidad de este sect
 
 \subsection{Objetivo General}
 
-Realizar un análisis descriptivo de la producción, área cultivada y rendimiento agrícola de las regiones de la India durante el periodo 1997-2009.
+Realizar un análisis descriptivo de la producción, área cultivada y rendimiento agrícola de las regiones de la India durante el periodo 1997-2020.
 
 \subsection{Objetivos Específicos}
 
 \begin{itemize}
   \item{Comparar la producción, área y rendimiento agrícolas total de la India durante todo el periodo de estudio.}
-  \item{Clasificar los tipos de cultivos según el área cultivada.}
-  \item{Evaluar los cambios en la evolución histórica de la producción, área y rendimiento agrícola durante el periodo 1997-2009.}
-  \item{Explicar la distribución de la producción dado la región y tipo de cultivo.}
+  \item{Determinar la variabilidad de la producción, área y rendimiento agrícolas de cada región de la India durante el lapso de estudio.}
+  \item{Identificar el impacto que tiene el área de cultivo según su tipo.}
+  \item{Evaluar los cambios en la evolución histórica de la producción, área y rendimiento agrícola durante el periodo 1997-2020.}
+  \item{Cuantificar la relación de la producción de las regiones de la India y los tipos de cultivos.}
 \end{itemize}
 
 \section{Cobertura}
@@ -155,11 +156,11 @@ La cobertura horizontal abarca las características de cada cultivo registrado y
 
 \subsection{Vertical}
 
-La cobertura vertical del trabajo de investigación abarca un total de 19,698 observaciones (registros) donde cada fila representa un cultivo específico y sus características correspondientes, con un alcance temporal que abarca desde el año 1997 hasta el año 2009.
+La cobertura vertical del trabajo de investigación abarca un total de 19,698 observaciones (registros) donde cada fila representa un cultivo específico y sus características correspondientes, con un alcance temporal que abarca desde el año 1997 hasta el año 2020.
 
 \section{Periodo de Referencia}
 
-La fuente de datos a estudiar corresponde al repositorio abierto de Kaggle (“Agricultural Crop Yield in Indian States Dataset”). Donde se toma como período de referencia los registros pertenecientes al intervalo de tiempo 1997-2009.
+La fuente de datos a estudiar corresponde al repositorio abierto de Kaggle (“Agricultural Crop Yield in Indian States Dataset”). Donde se toma como período de referencia los registros pertenecientes al intervalo de tiempo 1997-2020.
 
 \section{Variables}
 
@@ -191,6 +192,7 @@ La India diversifica su producción para satisfacer tanto el mercado interno com
  \item{\textbf{Cultivos Industriales o Comerciales:} Materias primas para la industria manufacturera. La caña de azúcar para el azúcar y el etanol, y el algodón para la potente industria textil india.}
  \item{\textbf{Horticultura:} Incluye frutas, flores y especias. La India es el mayor productor mundial de especias (pimienta, cardamomo, cúrcuma) y mangos.}
 \end{itemize}
+
 \
 
 \subsection{Regiones Agrícolas de la India}
@@ -206,6 +208,7 @@ El país se puede dividir en zonas productivas clave, para el estudio, saber las
     \item{\textbf{Zonas Áridas (Rajasthan):} Se especializan en mijos y semillas oleaginosas que requieren mínima agua.}
 
 \end{itemize}
+
 \
 
 \subsection{Estadística Descriptiva Univariante}
@@ -214,7 +217,7 @@ La estadística descriptiva univariante se centra en el análisis de datos, haci
 
 Para este estudio, será necesario entender el comportamiento individual de la producción, el área cultivada y el rendimiento anual utilizando técnicas de la estadística descriptiva univariante.\
 
-\subsubsection*{Medidas de Posición}
+\\subsubsection\*{Medidas de Posición}
 
 Las medidas de posición, también llamadas fractiles o cuantiles, son utilizadas para facilitar la localización de un dato respecto de un conjunto de ellos. Para este estudio, se utilizarán:
 
@@ -226,9 +229,11 @@ $$P_k = \frac{k(n + 1)}{4}$$
 \item{\textbf{Mediana:} Promedio no matemático que divide a la serie de datos de un estudio, en dos partes iguales, que representan cada una el 50\% de los datos.}
 
 $$Me = \left(\frac{n+1}{2}\right)$$
-\end{itemize}\
+\end{itemize}
 
-\subsubsection*{Medidas de Tendencia Central}
+\
+
+\\subsubsection\*{Medidas de Tendencia Central}
 
 Son casos especiales de las medidas de posición, debido a su ubicación en la zona central de la distribución. Estas medidas, también son denominadas promedios.
 
@@ -242,9 +247,11 @@ $$\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}$$
  $$Me = \left(\frac{n+1}{2}\right)$$
 
 \item{\textbf{Moda:} Es un promedio no matemático representado por el valor con mayor número de ocurrencias dentro de la serie de datos.}
-\end{itemize}\
+\end{itemize}
 
-\subsubsection*{Medidas de Dispersión}
+\
+
+\\subsubsection\*{Medidas de Dispersión}
 
 Tienen por objeto medir la magnitud de los desvíos de los valores de la variable con respecto al valor central de la distribución, es decir, definen cuán semejante o cuán distinto son cada uno de los valores, de la variable con respecto al valor central.
 
@@ -264,7 +271,9 @@ $$s = \sqrt{s^2} = \sqrt{\frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n}}$$
 \item{\textbf{Coeficiente de Variación de Pearson:} Es el cociente entre la desviación estándar y la media aritmética, multiplicado por cien. Es el coeficiente de dispersión relativa de más amplio uso.}
 
 $$CV =  \frac{s}{\bar{x}} \times 100\%$$
-\end{itemize}\
+\end{itemize}
+
+\
 
 \subsection{Estadística Descriptiva Bivariante}
 
@@ -272,17 +281,20 @@ La estadística descriptiva bivariante analiza la relación entre dos variables 
 
 En este estudio resulta de interés conocer a fondo el tipo de relación que hay entre cada una de las variables, tanto numéricas como categóricas, para saber la influencia que tienen una sobre a otra.\
 
-\subsubsection*{Medidas de Dispersión Conjunta}
+\\subsubsection\*{Medidas de Dispersión Conjunta}
 
 \begin{itemize}
 \item{\textbf{Coeficiente de Correlación de Pearson:} Es una medida que da cuenta del sentido, dirección e intensidad o magnitud de la relación lineal entre dos variables cuantitativas.}
 
 $$r = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{n\cdot\sqrt{\sum_{i=1}^{n}) (x_i - \bar{x})^2} \cdot \sqrt{\sum_{i=1}^{n} (y_i - \bar{y})^2}}$$
-\end{itemize}\
+\end{itemize}
+
+\
 
 \subsection{Método de Detección de Datos Atípicos}
 \subsubsection*{Prueba de Tukey}
-verifica múltiples valores atípicos en ambos lados, categorizados como valores “externos” o “muy alejados”. En este caso los límites son: 
+
+verifica múltiples valores atípicos en ambos lados, categorizados como valores “externos” o “muy alejados”. En este caso los límites son:
 
 \begin{itemize}
 \item{\textbf{Límites internos:} Se consideran atípicas leves aquellas observaciones alejadas del 1er y 3er cuartil, respectivamente, más 1,5 veces el Recorrido Intercuartílico.}
@@ -292,12 +304,34 @@ $$X_i \le Q_1 - 1,5RI \quad \text{o} \quad X_i \ge Q_3 + 1,5RI$$
 \item{\textbf{Límites externos:} Se consideran atípicas extremas aquellas observaciones alejadas del 1er y 3er cuartil, respectivamente, más de 3 veces el Recorrido Intercuartílico.}
 
 $$X_i \le Q_1 - 3RI \quad \text{o} \quad X_i \ge Q_3 + 3RI$$
-\end{itemize}\
+\end{itemize}
+
+\
+
+\subsection{Series de Tiempo}
+
+Las series de tiempo son una herramienta gráfica ampliamente utilizada y de gran utilidad en el análisis de datos. Se representan mediante una gráfica de líneas donde el eje vertical muestra la escala del métrico de interés, como defectos, costos, dimensiones de piezas, quejas de clientes, entre otros. Por otro lado, el eje horizontal representa el tiempo o intervalos en los que se recopilaron los datos. A través de esta representación gráfica, se pueden identificar diversas características y patrones en los datos.
+
+Nos permiten identificar tendencias, ciclos, estacionalidad y cambios de comportamiento en nuestros datos y procesos. Por ejemplo, al observar la distribución de quejas de clientes en una empresa durante los meses de enero a junio, podemos notar que febrero es el mes con más quejas, mientras que abril tiene menos. Esto nos lleva a cuestionarnos qué sucedió en febrero que lo diferencia de abril y cuál podría ser la causa de este comportamiento.
+
+\subsubsection*{Componentes principales}
+Para analizar estas series, se suelen descomponeren cuatro elementos clave: 
+
+\begin{itemize}
+ \item{\textbf{Tendencia} El movimiento general a largo plazo de la serie (si sube, baja o se Estacionalidad: mantiene estable). }
+ \item{\textbf{Ciclo:} Cambios de larga duración que no tienen un periodo fijo (comunes en ciclos económicos).}
+ \item{\textbf{Factor Irregular:}Variaciones aleatorias o impredecibles causadas por eventos inesperados (huelgas, desastres naturales, etc.). }
+ \item{\textbf{Estacionalidad:}:  Variaciones  que se repiten en periodos específicos, como el aumento de ventas de juguetes en Navidad.}
+\end{itemize}
+
+\
 
 
 \chapter{Marco Metódico}
 
-En esta sección se presentan las metodologías y/o test necesarios relacionados con la práctica divulgada  repositorio en el marco teórico, así como las fuentes de datos  chill person in the park sont worry be happy, ilysm.
+Variaciones aleatorias o impredecibles causadas por eventos inesperados (huelgas, desastres naturales, etc.).
+
+En esta sección se presentan las metodologías y/o test necesarios relacionados con la práctica divulgada repositorio en el marco teórico, así como las fuentes de  en el marcom metodologico tendremos todo lo relacionado al trabjo principal datos chill person in the park sont worry be happy, ilysm.
 
 \section{Bases metódicas utilizadas en el trabajo de investigación}
 
@@ -357,3 +391,4 @@ Descripción\
 \chapter{Anexo B}
 
 \chapter{Anexo C}
+
