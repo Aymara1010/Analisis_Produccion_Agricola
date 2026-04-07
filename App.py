@@ -170,8 +170,8 @@ with pag1:
             st.plotly_chart(box, use_container_width=True)
 
         with st.container(border=True):
-            sector = gf.sectores("Titulo", var, df_filtrado)
-            st.plotly_chart(sector, use_container_width=True)
+            line = gf.linea("titulo", var, df_filtrado)
+            st.plotly_chart(line, use_container_width=True)
             
     # -------------------------------------------------------------------------
 
@@ -180,3 +180,163 @@ with pag1:
         barras = gf.barras("Titulo", var, df_filtrado)
         st.plotly_chart(barras, use_container_width=True)
     #--------------------------------------------------------------------------
+    
+    # PAGINA 2 (Analisis de la distribución de Variables numericas) ---------------------------------------------------------------------------
+    
+    with pag2:
+        
+     df1 = gf.outliers(var, df_filtrado)
+
+     media, mediana, dt, cv = st.columns(4)
+
+     # METRICAS ---------------------------------------------------------------
+     with media:
+         with st.container(border=True):
+             promedio = df1[var].mean()
+             st.metric(
+                f"Promedio de {var}",
+                formato(promedio)
+            )
+     with mediana:
+        with st.container(border=True):
+            st.metric(
+                f"Mediana de {var}",
+                formato(df1[var].median())
+            )
+     with dt:
+         with st.container(border=True):
+             desviacion_tipica = df1[var].std()
+             st.metric(
+                f"Desviación típica para {var}",
+                formato(desviacion_tipica)
+            )
+     with cv:
+        with st.container(border=True):
+            st.metric(
+                f"Outliers eliminados en {var}",
+                gf.len_outliers(var, df_filtrado)
+            )
+     # ---------------------------------------------------------------------------------
+
+     # GRAFICAS A LA IZQUIERDA ---------------------------------------------------------
+     col41, col42 = st.columns(2)
+
+     with col41:
+         with st.container(border=True):
+             hist = gf.histograma("titulo", var, df1)
+             st.plotly_chart(hist, use_container_width=True)
+
+         with st.container(border=True):
+             
+             sector = gf.sectores("Titulo", var, df1)
+             st.plotly_chart(sector, use_container_width=True)
+     # ----------------------------------------------------------------------------------
+
+     # GRAFICAS A LA DERECHA ------------------------------------------------------------
+     with col42:
+         
+         with st.container(border=True):
+             st.markdown("""La agricultura ha sido un sector económico de la India que ha ido evolucionando a través del tiempo, siendo actualmente uno de los países con mayor producción agrícola a nivel global, lo que lo hace uno de los sectores económicos más relevantes del país. Sin embargo, la agricultura también es un sector con una alta variabilidad cuando hablamos de rendimiento, dependiendo de factores como el tipo de cultivo sembrado y la zona geográfica en la que se encuentra, por lo que obtener una alta producción requiere de un análisis exhaustivo para obtener los mejores resultados.""")
+            
+         with st.container(border=True):
+             sub11 , sub12 = st.tabs([
+             "Top Mejores",
+             "Top Peores"
+              ])
+
+             with sub11:
+                 top_cultivos1 = gf.top_mejores("titulo", var, df1, "Crop")
+                 st.plotly_chart(top_cultivos1, use_container_width=True)
+             with sub12:
+                 top_cultivos2 = gf.top_peores("titulo", var, df1, "Crop")
+                 st.plotly_chart(top_cultivos2, use_container_width=True)
+
+  
+      # -----------------------------------------------------------------------------------   
+
+      # GRAFICA DE ABAJO ------------------------------------------------------------------        
+
+     with st.container(border=True):
+           barmar = gf.bar_mariposa("titulo", var, df1)
+           st.plotly_chart(barmar, use_container_width=True)
+        # --------------------------------------------------------------------
+
+
+
+
+with pag3:
+    col51, col52, col53 = st.columns(3)
+    
+    # METRICAS ---------------------------------------------------------------
+    with col51:
+        with st.container(border=True):
+            ds_produccion = gf.outliers("Production", df_filtrado)
+            st.metric(
+                f"Desviación típica para Production (ton)",
+                formato(ds_produccion["Production"].std())
+            )
+    with col52:
+        with st.container(border=True):
+            ds_area = gf.outliers("Area", df_filtrado)
+            st.metric(
+                f"Desviación típica para Area (hec)",
+                formato(ds_area["Area"].std())
+            )
+    with col53:
+        with st.container(border=True):
+            ds_rendimiento = gf.outliers("Yield", df_filtrado)
+            st.metric(
+                f"Desviación típica para Yield (ton/hec)",
+                formato(ds_rendimiento["Yield"].std())
+            )
+    # ------------------------------------------------------------------------
+    
+    col61, col62 = st.columns(2)
+    
+    # GRAFICOS A LA IZQUIERDA ------------------------------------------------
+    with col61:
+
+        with st.container(border=True):
+            comparacion = st.selectbox(
+            "Selecciona una Comparacion",
+            options=["Production vs Area", "Area vs Yield", "Yield vs Production"]
+            )
+            
+            if comparacion == "Production vs Area":
+              var1 = "Production"
+              var2 = "Area"
+              var3 = "Yield"
+            elif comparacion ==  "Yield vs Production":  
+             var1 = "Production"
+             var2 = "Yield"
+             var3 = "Area"
+            else:
+              var1 = "Yield"
+              var2 = "Area"
+              var3 = "Production"
+            
+            dispecion = gf.dispercion("titulo",var1, var2, var3, df_filtrado)
+            st.plotly_chart(dispecion, use_container_width=True)
+            
+        
+        with st.container(border=True):
+            matriz = gf.matriz(df_filtrado)
+            st.plotly_chart(matriz, use_container_width=True)
+            
+                         
+    # ------------------------------------------------------------------------
+    
+    # GRAFICOS A LA DERECHA --------------------------------------------------
+    with col62:
+                              
+        with st.container(border=True):
+             st.markdown("""La agricultura ha sido un sector económico de la India que ha ido evolucionando a través del tiempo, siendo actualmente uno de los países con mayor producción agrícola a nivel global, lo que lo hace uno de los sectores económicos más relevantes del país. Sin embargo, la agricultura también es un sector con una alta variabilidad cuando hablamos de rendimiento, dependiendo de factores como el tipo de cultivo sembrado y la zona geográfica en la que se encuentra, por lo que obtener una alta producción requiere de un análisis exhaustivo para obtener los mejores resultados.""")
+             st.markdown("""La agricultura ha sido un sector económico de la India que ha ido evolucionando a través del tiempo, siendo actualmente uno de los países con mayor producción agrícola a nivel global, lo que lo hace uno de los sectores económicos más relevantes del país. Sin embargo, la agricultura también es un sector con una alta variabilidad cuando hablamos de rendimiento, dependiendo de factores como el tipo de cultivo sembrado y la zona geográfica en la que se encuentra, por lo que obtener una alta producción requiere de un análisis exhaustivo para obtener los mejores resultados.""")
+             st.markdown("""La agricultura ha sido un sector económico de la India que ha ido evolucionando a través del tiempo, siendo actualmente uno de los países con mayor producción agrícola a nivel global, lo que lo hace uno de los sectores económicos más relevantes del país. Sin embargo, la agricultura también es un sector con una alta variabilidad cuando hablamos de rendimiento, dependiendo de factores como el tipo de cultivo sembrado y la zona geográfica en la que se encuentra, por lo que obtener una alta producción requiere de un análisis exhaustivo para obtener los mejores resultados.""")
+            
+              
+               
+        with st.container(border=True):
+            linea2 = gf.linea_comparacion(df_filtrado)
+            st.plotly_chart(linea2, use_container_width=True)
+    # ------------------------------------------------------------------------
