@@ -65,3 +65,6 @@ Realizar un análisis descriptivo de la producción, área cultivada y rendimien
 3.  Evaluar los cambios en la evolución histórica de la producción, área y rendimiento agrícola durante el periodo 1997-2009.
 
 4. Explicar la distribución de la producción dado la región y tipo de cultivo.
+
+
+###### Dashboard con streamlit: [https://dashboard-analisis-precios-viviendas.onrender.com](https://analisis-produccion-agricola.onrender.com/)
