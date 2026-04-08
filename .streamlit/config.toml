@@ -1,6 +1,6 @@
 [theme]
-primaryColor = "#eaf1ee"          # Color de énfasis (botones, barras)
+primaryColor = "#00ff88"         # Color de énfasis (botones, barras)
 backgroundColor = "#0E1117"       # Tu color de fondo principal
 secondaryBackgroundColor = "#262730" # Fondo de la barra lateral
-textColor = "#00ff88"             # Color de las letras
+textColor = "#eaf1ee"              # Color de las letras
 font = "sans serif"               # Tipografía

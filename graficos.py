@@ -117,7 +117,7 @@ def sectores(titulo, valores, df):
     )
     
     fig.update_traces(textposition='inside', textinfo='percent+label')
-    fig.update_layout(height=330, title_x=0.5)
+    fig.update_layout(height=400, title_x=0.5)
     
     return fig
 
@@ -166,7 +166,8 @@ def histograma(titulo, var, df):
         plot_bgcolor='rgba(0,0,0,0)',
         xaxis_title=var, 
         yaxis_title="Frecuencia",
-        bargap=0.1 
+        bargap=0.1,
+        height=500
     )
     
     return fig
@@ -376,7 +377,7 @@ def matriz(df):
     fig.update_layout(
     title_x=0.5,
     width=600,
-    height=500
+    height=600
     )
     
     return fig  
@@ -399,7 +400,8 @@ def linea_comparacion(df):
     xaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(255,255,255,0.1)', dtick=1), 
     yaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(255,255,255,0.1)', tickformat=',.0f'), 
     paper_bgcolor='rgba(0,0,0,0)',
-    plot_bgcolor='rgba(0,0,0,0)'
+    plot_bgcolor='rgba(0,0,0,0)',
+    height=400
     )
     
     fig.update_traces(
@@ -444,7 +446,6 @@ def dispercion(titulo, var1, var2,var3, df):
 
 
     
-
 
 
 
