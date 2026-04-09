@@ -3,10 +3,6 @@ import geopandas as gpd
 import plotly.express as px
 import numpy as np
 
-# Leer Data
-df = pd.read_csv(r'Dataset/Agricultura_Filtrado.csv')
-gdf_final = gpd.read_file(r"Dataset/india_state.geojson")
-
 # Paleta de Colores:
 paleta_verde = [
     [0, '#707D7D'],   
@@ -22,8 +18,10 @@ paleta_verde = [
     [1, '#E3EF26'] 
     ]
 
+verde = ['#032221','#06302B','#0B453A', '#03624C', '#17876D', '#2FA98C','#2CC295','#00DF81']
+
 # MAPA GEOGRAFICO:
-def mapaelcono(df, var):
+def mapa(df, var, unid):
     fig = px.choropleth(
             df,
             geojson=df["geometry"],
@@ -40,7 +38,7 @@ def mapaelcono(df, var):
         plot_bgcolor='rgba(0,0,0,0)',
         margin={"r":0, "t":0, "l":0, "b":0}, 
         title={
-            'text': var,
+            'text': f"Distribución Geográfica de {var}",
             'y': 0.95,
             'x': 0.5,
             'xanchor': 'center',
@@ -49,7 +47,7 @@ def mapaelcono(df, var):
         },
 
         coloraxis_colorbar=dict(
-            title=var,
+            title= unid,
             thickness=15,
             len=0.7,
             bgcolor="rgba(0,0,0,0)"
@@ -83,7 +81,7 @@ def boxplot(titulo, var, df):
     x="Crop_Type", 
     y=var, 
     color="Crop_Type",
-    color_discrete_sequence=px.colors.sequential.Greens[2:],
+    color_discrete_sequence=verde[::-1],
     points="all",          
     log_y=True,            
     title=titulo,
@@ -96,9 +94,17 @@ def boxplot(titulo, var, df):
     fig.update_traces(pointpos=0, jitter=0.3)
     
     fig.update_layout(
-        height=330,
+        height=450,
     title_x=0.5,
-    showlegend=True
+    showlegend=True,
+    title={
+            'text': titulo,
+            'y': 0.95,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': {'size': 20, 'color': 'white'}
+            }
     )
     return fig
 
@@ -112,12 +118,21 @@ def sectores(titulo, valores, df):
         names='Crop_Type', 
         title=titulo,
         color='Crop_Type',
-        color_discrete_sequence=px.colors.sequential.Greens[2:],
+        color_discrete_sequence=verde[::-1],
         template="plotly_white"
     )
     
     fig.update_traces(textposition='inside', textinfo='percent+label')
-    fig.update_layout(height=400, title_x=0.5)
+    fig.update_layout(height=400,
+                      title_x=0.5,
+                      title={
+            'text': titulo,
+            'y': 0.95,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': {'size': 20, 'color': 'white'}
+        })
     
     return fig
 
@@ -135,11 +150,19 @@ def barras(titulo, valores, df):
         title=titulo,
         log_y=True,
         barmode='stack', 
-        color_discrete_sequence=px.colors.sequential.Greens[2:],
+        color_discrete_sequence=verde[::-1],
         template="plotly_white"
     )
 
     fig.update_layout(
+        title={
+            'text': titulo,
+            'y': 0.95,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': {'size': 20, 'color': 'white'}
+            },
         title_x=0.5,
         xaxis_title="Estado",
         yaxis_title=f"Total de {valores}",
@@ -157,7 +180,7 @@ def histograma(titulo, var, df):
         df, 
         x=var,
         title=titulo,
-        color_discrete_sequence=px.colors.sequential.Greens[2:], 
+        color_discrete_sequence=verde[::-1], 
         template="plotly_dark"
     )
     fig.update_layout(
@@ -167,7 +190,15 @@ def histograma(titulo, var, df):
         xaxis_title=var, 
         yaxis_title="Frecuencia",
         bargap=0.1,
-        height=500
+        height=500,
+        title={
+            'text': titulo,
+            'y': 0.95,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': {'size': 20, 'color': 'white'}
+        }
     )
     
     return fig
@@ -186,13 +217,22 @@ def linea(titulo, var, df):
     )
     
     fig.update_layout(
+    height= 350,
     title_x=0.5, 
     xaxis_title="Año de Cosecha",
     yaxis_title=var,
     xaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(255,255,255,0.1)', dtick=1), 
-    yaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(255,255,255,0.1)', tickformat=',.0f'), 
+    yaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(255,255,255,0.1)'), 
     paper_bgcolor='rgba(0,0,0,0)',
-    plot_bgcolor='rgba(0,0,0,0)'
+    plot_bgcolor='rgba(0,0,0,0)',
+    title={
+            'text': titulo,
+            'y': 0.95,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': {'size': 20, 'color': 'white'}
+        }
     )
     
     fig.update_traces(
@@ -206,64 +246,6 @@ def linea(titulo, var, df):
     return fig
 
 # BARRAS MARIPOSA:
-def bar_mariposa(titulo, var, df):
-    
-    #preparar data:
-    media_general = df['Production'].mean()
-    
-    df_agrupado = df.groupby("State")["Production"].mean().reset_index()
-    df_agrupado['Desviacion_Media'] = df_agrupado['Production'] - media_general
-    df_agrupado['Estado_Comparacion'] = df_agrupado['Desviacion_Media'].apply(lambda x: 'Sobre la Media' if x >= 0 else 'Bajo la Media')
-    
-    df_agrupado = df_agrupado.sort_values(by='Desviacion_Media', ascending=True)
-    
-    # gráfico:
-    fig = px.bar(
-    df_agrupado,
-    x='Desviacion_Media',
-    y='State',            
-    orientation='h', 
-    color='Estado_Comparacion', 
-    color_discrete_map={
-        'Sobre la Media': '#1a9641', 
-        'Bajo la Media': '#d7191c'    
-    },
-    title="Diferencia de Producción Media por Estado Respecto a la Media General",
-    labels={
-        'Desviacion_Media': 'Desviación de Producción',
-        'State': 'Estado',
-        'Estado_Comparacion': 'Estado Comparación'
-    },
-    template="plotly_dark"
-    )
-
-
-    fig.add_vline(x=0, line_width=3, line_dash="solid", line_color="white")
-
-    fig.update_layout(
-    title_x=0.5, 
-    xaxis_tickformat=',.0f',
-    yaxis_title=None, 
-    bargap=0.3,
-    legend=dict(
-        orientation="h",
-        yanchor="bottom",
-        y=-0.2,
-        xanchor="center",
-        x=0.5
-    ),
-  
-    margin=dict(l=150, r=20, t=50, b=80),
-    paper_bgcolor='rgba(0,0,0,0)',
-    plot_bgcolor='rgba(0,0,0,0)' 
-    )
-
-    fig.update_traces(
-    hovertemplate="<b>%{y}</b><br>Desviación: %{x:,.0f}<br>Comparación: %{text}",
-    text=df_agrupado['Estado_Comparacion'] 
-    )
-    
-    return fig
 
 
 # TOP:
@@ -279,7 +261,7 @@ def top_mejores(Titulo, var, df, tipo):
     text_auto='.2s',
     title=Titulo,
     color=var,
-    color_continuous_scale=px.colors.sequential.Greens,
+    color_continuous_scale=verde,
     template="plotly_dark"
     )
     
@@ -291,26 +273,34 @@ def top_mejores(Titulo, var, df, tipo):
     
     fig.update_layout(
     title_x=0.5,
-    xaxis_title=tipo,
-    yaxis_title=f"{var} Total",
+    xaxis_title=f"{var} Total",
+    yaxis_title=tipo,
     coloraxis_showscale=False, 
-    bargap=0.4
+    bargap=0.4,
+    title={
+            'text': Titulo,
+            'y': 0.95,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': {'size': 20, 'color': 'white'}
+        }
     )
     
     return fig
 
-def top_peores(Titulo, var, df, tipo):
+def top_peores(titulo, var, df, tipo):
     top = df.groupby(tipo)[var].sum().reset_index()
-    top = top.sort_values(by=var, ascending=True).head(5)
+    top = top.sort_values(by=var, ascending=False).tail(5)
     
     fig = px.bar(
     top,
     y=tipo,
     x=var,
     text_auto='.2s',
-    title=Titulo,
     color=var,
-    color_continuous_scale=px.colors.sequential.Greens,
+    title=titulo,
+    color_continuous_scale=verde[::-1],
     template="plotly_dark"
     )
     
@@ -322,10 +312,18 @@ def top_peores(Titulo, var, df, tipo):
     
     fig.update_layout(
     title_x=0.5,
-    xaxis_title="Tipo de Cultivo",
-    yaxis_title=f"{var} Total",
+    xaxis_title=f"{var} Total",
+    yaxis_title="Tipo de Cultivo",
     coloraxis_showscale=False, 
-    bargap=0.4
+    bargap=0.4,
+    title={
+            'text': titulo,
+            'y': 0.95,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': {'size': 20, 'color': 'white'}
+        }
     )
     
     return fig
@@ -368,7 +366,7 @@ def matriz(df):
     matriz_corr,
     text_auto='.2f',
     aspect="auto",
-    color_continuous_scale='RdYlGn',
+    color_continuous_scale=verde[::-1],
     title="Matriz de Correlación: Producción, Rendimiento y Área",
     template="plotly_dark",
     labels=dict(color="Correlación")
@@ -377,7 +375,15 @@ def matriz(df):
     fig.update_layout(
     title_x=0.5,
     width=600,
-    height=600
+    height=600,
+    title={
+            'text': "Matriz de Correlación: Producción, Rendimiento y Área",
+            'y': 0.95,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': {'size': 20, 'color': 'white'}
+        }
     )
     
     return fig  
@@ -385,51 +391,63 @@ def matriz(df):
 # Comparacion de tiempo:
 def linea_comparacion(df):
     df_tendencia = df.groupby('Crop_Year')[['Production', 'Area', 'Yield']].sum().reset_index()
-    
-    fig = px.line(df_tendencia, 
-              x='Crop_Year', 
-              y=['Production', 'Area', 'Yield'],
-              title='Tendencia Histórica: Producción, Área y Rendimiento',
-              template='plotly_dark',
-              labels={'value': 'Unidades', 'Crop_Year': 'Año', 'variable': 'Métrica'})
 
+    fig = px.line(
+        df_tendencia,
+        x='Crop_Year',
+        y=['Production', 'Area', 'Yield'],
+        title='Tendencia Histórica: Producción, Área y Rendimiento',
+        template='plotly_dark',
+        color_discrete_map={
+            'Production': '#00FF88',
+            'Area': '#03624C',
+            'Yield': '#E3EF26'
+        },
+        labels={'value': 'Unidades', 'Crop_Year': 'Año', 'variable': 'Métrica'}
+    )
     fig.update_layout(
-    title_x=0.5, 
-    xaxis_title="Año de Cosecha",
-    yaxis_title="ton, hec y ton/hec",
-    xaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(255,255,255,0.1)', dtick=1), 
-    yaxis=dict(showgrid=True, gridwidth=1, gridcolor='rgba(255,255,255,0.1)', tickformat=',.0f'), 
-    paper_bgcolor='rgba(0,0,0,0)',
-    plot_bgcolor='rgba(0,0,0,0)',
-    height=400
-    )
-    
-    fig.update_traces(
-    line_color='#00ff88', 
-    line_width=3,
-    marker=dict(size=8, color='white', symbol='circle'),
-    fill='tozeroy', 
-    fillcolor='rgba(0, 255, 136, 0.1)'
+        title_x=0.5,
+        xaxis_title="Año de Cosecha",
+        yaxis_title="ton, hec y ton/hec",
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        height=400,
+        legend_orientation="h",
+        legend_y=1.1,
+         title={
+            'text': "Matriz de Correlación: Producción, Rendimiento y Área",
+            'y': 0.95,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': {'size': 20, 'color': 'white'}
+        }
     )
 
-    fig.update_layout(legend_orientation="h", legend_y=1.1)
+    fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='rgba(255,255,255,0.1)', dtick=1)
+    fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgba(255,255,255,0.1)', tickformat='.2s')
+
+    fig.update_traces(
+        line_width=3,
+        marker=dict(size=8, symbol='circle')
+    )
+
     return fig
 
 # Dispercion
-def dispercion(titulo, var1, var2,var3, df):
+def dispercion(titulo, var1, var2, df):
     fig = px.scatter(
     df, 
     x=var1, 
     y=var2, 
-    color="Crop", 
-    size=var3,
+    color="Crop_Type",
     hover_name="Crop",       
     hover_data=["State", "Crop_Year"],
     log_x=True,           
     log_y=True, 
     title=titulo,
     template="plotly_dark",
-    color_continuous_scale="Viridis"
+    color_discrete_sequence=verde[::-1]
     )
     
     fig.update_layout(
@@ -437,7 +455,15 @@ def dispercion(titulo, var1, var2,var3, df):
     xaxis_title=var1,
     yaxis_title=var2,
     paper_bgcolor='rgba(0,0,0,0)',
-    plot_bgcolor='rgba(0,0,0,0)'
+    plot_bgcolor='rgba(0,0,0,0)',
+    title={
+            'text': titulo,
+            'y': 0.95,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+            'font': {'size': 20, 'color': 'white'}
+        }
     )
     
     fig.update_traces(marker=dict(size=8, opacity=0.6, line=dict(width=0.5, color='white')))

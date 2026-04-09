@@ -14,10 +14,6 @@ st.set_page_config(
     )
 
 # Cargar Datos:
-@st.cache_data() # Dataset original
-def load_original():
-    df_original = pd.read_csv("Dataset/Agricultura.csv")
-    return df_original
 
 @st.cache_data() # Datos geograficos
 def load_geojson():
@@ -30,7 +26,7 @@ def load_data():
     return df_csv
 
 # Almacenar data en variables:
-df_original = load_original()
+
 gdf = load_geojson()
 df = load_data()
 
@@ -107,8 +103,7 @@ else:
 
 # Mostrar Dataset Original
 
-with st.expander("🍃 Agricultura.csv"):
-    st.dataframe(df_original)
+
 
 # Separación de Páginas Principales:
 
@@ -169,12 +164,12 @@ with pag1: # Análisis General SIN eliminacion de outliers
 
     with mapa: # MAPA GEOGRAFICO
         with st.container(border=True):
-           fig = gf.mapaelcono(gdf_filtrado, var)
+           fig = gf.mapa(gdf_filtrado, var, unid)
            st.plotly_chart(fig, use_container_width=True)
-            
+        
         with st.container(border=True):
-            box = gf.boxplot("Titulo", var, df_filtrado)
-            st.plotly_chart(box, use_container_width=True)    
+            line = gf.linea(f"Evolución Temporal de {var}", var, df_filtrado)
+            st.plotly_chart(line, use_container_width=True)  
 
     with graficas:# SECTORES Y DISPERCIÓN
         
@@ -190,14 +185,14 @@ with pag1: # Análisis General SIN eliminacion de outliers
             st.markdown("**IMPORTANTE:** para esta sección no se eliminó ningún dato atípico.")
 
         with st.container(border=True):
-            line = gf.linea("titulo", var, df_filtrado)
-            st.plotly_chart(line, use_container_width=True)
+            box = gf.boxplot(f"Variabilidad de {var} por Categoría de Cultivo", var, df_filtrado)
+            st.plotly_chart(box, use_container_width=True)  
             
     # -------------------------------------------------------------------------
 
     # GRAFICO NIVEL 2 ---------------------------------------------------------
     with st.container(border=True):
-        barras = gf.barras("Titulo", var, df_filtrado)
+        barras = gf.barras(f"Composición para {var} por Estado y Tipo de Cultivo", var, df_filtrado)
         st.plotly_chart(barras, use_container_width=True)
     #--------------------------------------------------------------------------
     
@@ -243,12 +238,12 @@ with pag1: # Análisis General SIN eliminacion de outliers
 
      with col41:
          with st.container(border=True):
-             hist = gf.histograma("titulo", var, df1)
+             hist = gf.histograma(f"Hitorigrama para {var}", var, df1)
              st.plotly_chart(hist, use_container_width=True)
 
          with st.container(border=True):
              
-             sector = gf.sectores("Titulo", var, df1)
+             sector = gf.sectores(f"Porcentaje de Tipo de Cultivo en {var}", var, df1)
              st.plotly_chart(sector, use_container_width=True)
      # ----------------------------------------------------------------------------------
 
@@ -273,10 +268,10 @@ with pag1: # Análisis General SIN eliminacion de outliers
               ])
 
              with sub11:
-                 top_cultivos1 = gf.top_mejores("titulo", var, df1, "Crop")
+                 top_cultivos1 = gf.top_mejores(f"Top 5 Cultivos con Mayor {var}", var, df1, "Crop")
                  st.plotly_chart(top_cultivos1, use_container_width=True)
              with sub12:
-                 top_cultivos2 = gf.top_peores("titulo", var, df1, "Crop")
+                 top_cultivos2 = gf.top_peores(f"Top 5 Cultivos con Menor {var}", var, df1, "Crop")
                  st.plotly_chart(top_cultivos2, use_container_width=True)
 
   
@@ -284,9 +279,6 @@ with pag1: # Análisis General SIN eliminacion de outliers
 
       # GRAFICA DE ABAJO ------------------------------------------------------------------        
 
-     with st.container(border=True):
-           barmar = gf.bar_mariposa("titulo", var, df1)
-           st.plotly_chart(barmar, use_container_width=True)
         # --------------------------------------------------------------------
 
 
@@ -359,16 +351,13 @@ with pag3:
             if comparacion == "Production vs Area":
               var1 = "Production"
               var2 = "Area"
-              var3 = "Yield"
             elif comparacion ==  "Yield vs Production":  
              var1 = "Production"
              var2 = "Yield"
-             var3 = "Area"
             else:
               var1 = "Yield"
               var2 = "Area"
-              var3 = "Production"
             
-            dispecion = gf.dispercion("titulo",var1, var2, var3, df_filtrado)
+            dispecion = gf.dispercion(f"Gráfico de Disperción de {comparacion} por Tipo de Cultivo",var1, var2, df_filtrado)
             st.plotly_chart(dispecion, use_container_width=True)
     # ------------------------------------------------------------------------
