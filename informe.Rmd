@@ -314,8 +314,9 @@ Las series de tiempo son una herramienta gráfica ampliamente utilizada y de gra
 
 Nos permiten identificar tendencias, ciclos, estacionalidad y cambios de comportamiento en nuestros datos y procesos. Por ejemplo, al observar la distribución de quejas de clientes en una empresa durante los meses de enero a junio, podemos notar que febrero es el mes con más quejas, mientras que abril tiene menos. Esto nos lleva a cuestionarnos qué sucedió en febrero que lo diferencia de abril y cuál podría ser la causa de este comportamiento.
 
-\subsubsection*{Componentes principales}
-Para analizar estas series, se suelen descomponeren cuatro elementos clave: 
+\\subsubsection\*{Componentes principales}
+
+Para analizar estas series, se suelen descomponeren cuatro elementos clave:
 
 \begin{itemize}
  \item{\textbf{Tendencia} El movimiento general a largo plazo de la serie (si sube, baja o se Estacionalidad: mantiene estable). }
@@ -326,32 +327,45 @@ Para analizar estas series, se suelen descomponeren cuatro elementos clave:
 
 \
 
-
 \chapter{Marco Metódico}
 
-Variaciones aleatorias o impredecibles causadas por eventos inesperados (huelgas, desastres naturales, etc.).
-
-En esta sección se presentan las metodologías y/o test necesarios relacionados con la práctica divulgada repositorio en el marco teórico, así como las fuentes de  en el marcom metodologico tendremos todo lo relacionado al trabjo principal datos chill person in the park sont worry be happy, ilysm.
+En este capítulo se visualizarán todas los procedimientos, pruebas y metodologías estadísticas para sustentar la hipótesis planteada en nuestro trabajo. Se detalla el comportamiento de los datos de  Agricultura.cvs, técnicas de limpieza (Data Wrangling) y los tests de inferencia utilizados para determinar la significancia estadística de los tipos de cultivos de la India y su producción. 
+En este análisis utilizaremos el lenguaje de programación R, con el Desarrollo de RStudio, empleando  empleando el paradigma “Tidyverse” para la manipulación de datos. \
 
 \section{Bases metódicas utilizadas en el trabajo de investigación}
 
-Desarrollo\
+En la presente investigación fijamos una variable cuantitativa a nivel descriptivo, ya que, se busca caracterizar la situación agrícola procesando datos numéricos de la producción, áreas cultivadas y rendimiento agrícola en la India. 
+Dicho esto se utilizó bases metódicas estadísticas integrando datos cuantitativos y cualitativos. \
 
-\subsection{Item 1}
+\subsection{Procesamiento y Limpieza de Datos (ETL)}
 
-Descripción\
+En este trabajo se utilizó el procesamiento y limpieza de datos (ETL), el cual se caracteriza por realizar cambios en la data, permitiendo mover información desde múltiples fuentes hacia un solo destino, facilitando así el  análisis y comprensión requerido para la realización de nuestros objetivos. En Este caso se utilizó para extraer los datos obtenidos en el dataset Agricultura.csv
 
-\subsection{Item 2}
+Este proceso cuenta de tres fases, como lo son:
 
-Descripción\
+\begin{itemize}
+ \item{\textbf{La extracción:} Se recopiló los datos del dataset dado Agricultura.csv}
+ \item{\textbf{La transformación:} En esta fase  se limpio, ordenó y estandarizo los datos  para obtener información de alta calidad.}
+ \item{\textbf{La carga:}Por último  los datos ya procesados se almacenan en un sistema de destino, por lo general en un Data Warehouse (Almacén de datos).}
+\end{itemize} \
 
-\subsubsection{Item 2.2}
+\subsection{Selección de Datos Necesarios}
 
-Descripción\
+En esta fase se filtraron las columnas del dataset Agricultura.csv para realizar de una manera más eficaz el análisis de las variables. En este caso las variables cuantitativas utilizadas fueron: Crop_Year, Crop, State; destacando además variables explicativas como lo son Production, Area y Yield. \
 
-\subsection{Item n}
+\subsection{Verificación de Datos Faltantes}
 
-Descripción\
+Con la ayuda de Tidyverse utilizando librerías como los son  (“dplyr” y “tidyr”), se escaneo el dataset en busca de valores nulos, acomodando así nuestra data. \ 
+
+\subsection{Categorización de Cultivos y Estados}
+
+Para facilitar el análisis,  se agruparon sectores de cultivos creando nueva información colocada en etiquetas. Un cultivo como “Arroz” y “Frijoles” se colocó en la  nueva Variable (Crop_Year) como “Cereales y Granos” , permitiendo comparar el crecimiento de cereales básicos con legumbres o cultivos comerciales.\
+
+\subsection{Categorización de Cultivos y Estados}
+
+
+Por último se  identificaron anomalías estadísticas, y se utilizaron los métodos estadísticos correspondientes (moda, media, mediana, rango intercuartílico , media aritmética y varianza) para visualizarla de una mejor manera.\
+
 
 \chapter{Análisis de Resultados}
 
@@ -391,4 +405,3 @@ Descripción\
 \chapter{Anexo B}
 
 \chapter{Anexo C}
-
