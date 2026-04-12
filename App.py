@@ -1,9 +1,10 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
-import json
 import plotly.express as px
 import graficos as gf
+import time
+import requests
 
 
 # Configurar Página:
@@ -16,14 +17,15 @@ st.set_page_config(
 # Cargar Datos:
 @st.cache_data()
 def load_geo():
-  with open("Dataset/india_state.geojson") as f:
-        geo = json.load(f)
-        return geo
+    url = "https://raw.githubusercontent.com/Aymara1010/ayudenme/main/india_state.geojson"
+    geo = requests.get(url)
+    return geo.json()
 
 @st.cache_data() # Dataset limpiado (ver Limpieza.py)
 def load_data():
     df_csv = pd.read_csv("Dataset/Agricultura_Filtrado.csv")
     return df_csv
+
 
 # Almacenar data en variables:
 
@@ -104,53 +106,46 @@ else:
 
 # Mostrar Dataset Original
 
-
-
 # Separación de Páginas Principales:
 
 pag1 , pag2, pag3 = st.tabs([
     "🌏 Análisis General",
     "📈 Distribución",
     "🆚 Comparaciones"
-])
+], on_change="rerun")
 
-with pag1: # Análisis General SIN eliminacion de outliers
 
-    metrica1, metrica2, metrica3, metrica4 = st.columns(4)
+if pag1.open:
+ with pag1: # Análisis General SIN eliminacion de outliers
+     with st.spinner("Preparando el terreno para tu análisis... 📊🚜"):
+         time.sleep(10)
+
+     metrica1, metrica2, metrica3, metrica4 = st.columns(4)
 
     # METRCAS ------------------------------------------
-    
-    def formato(num): # Cambiar de formato números muy grandes
-        if num >= 1_000_000_000:
-            return f"{num/1_000_000_000:.2f} Billones" # NOTA: los "_" no afectan el calculo, solo es para llevar un orden visual
-        elif num >= 1_000_000:
-            return f"{num/1_000_000:.2f} Millones"
-        elif num >= 100_000:
-            return f"{num/1_000:.2f} Miles"
-        else: return f"{num:,.2f}"
         
-    with metrica1:
+     with metrica1:
         with st.container(border=True):
             st.metric(
                 "🪴 Producción Total (ton)",
-                f"{formato(df_filtrado["Production"].sum())}"
+                f"{gf.formato(df_filtrado["Production"].sum())}"
             )
 
-    with metrica2:
+     with metrica2:
         with st.container(border=True):
             st.metric(
                 "🌾 Área Cultivas Total (hec)",
-                f"{formato(df_filtrado["Area"].sum())}",
+                f"{gf.formato(df_filtrado["Area"].sum())}",
             )
 
-    with metrica3:
+     with metrica3:
         with st.container(border=True):
             st.metric(
                 "🚜 Rendimiento General (ton/hec)",
-                f"{formato(df_filtrado["Yield"].mean())}", # El rendimiento es mejor expresarlo con promedios
+                f"{gf.formato(df_filtrado["Yield"].mean())}", # El rendimiento es mejor expresarlo con promedios
             )
 
-    with metrica4:
+     with metrica4:
         with st.container(border=True):
             cultivos_agrupados = df_filtrado.groupby("Crop")[var].sum()
             st.metric(
@@ -161,9 +156,9 @@ with pag1: # Análisis General SIN eliminacion de outliers
 
     # GRAFICAS NIVEL 1 -------------------------------------
 
-    mapa, graficas = st.columns(2)
+     mapa, graficas = st.columns(2)
 
-    with mapa: # MAPA GEOGRAFICO
+     with mapa: # MAPA GEOGRAFICO
         with st.container(border=True):
            fig_mapa = gf.mapa(df_mapa, gdf, var, unid)
            st.plotly_chart(fig_mapa, use_container_width=True)
@@ -172,7 +167,7 @@ with pag1: # Análisis General SIN eliminacion de outliers
             line = gf.linea(f"Evolución Temporal de {var}", var, df_filtrado)
             st.plotly_chart(line, use_container_width=True)  
 
-    with graficas:# SECTORES Y DISPERCIÓN
+     with graficas:# SECTORES Y DISPERCIÓN
         
         with st.container(border=True):
             st.header("📊 Análisis General")
@@ -192,14 +187,17 @@ with pag1: # Análisis General SIN eliminacion de outliers
     # -------------------------------------------------------------------------
 
     # GRAFICO NIVEL 2 ---------------------------------------------------------
-    with st.container(border=True):
+     with st.container(border=True):
         barras = gf.barras(f"Composición para {var} por Estado y Tipo de Cultivo", var, df_filtrado)
         st.plotly_chart(barras, use_container_width=True)
     #--------------------------------------------------------------------------
     
     # PAGINA 2 (Analisis de la distribución de Variables numericas) ---------------------------------------------------------------------------
     
-    with pag2:
+if pag2.open:
+ with pag2: # Análisis General SIN eliminacion de outliers
+     with st.spinner("Sembrando datos y cosechando estadísticas... 🚜🌱"):
+         time.sleep(5)
         
      df1 = gf.outliers(var, df_filtrado)
 
@@ -211,20 +209,20 @@ with pag1: # Análisis General SIN eliminacion de outliers
              promedio = df1[var].mean()
              st.metric(
                 f"📊 Promedio de {var}",
-                f"{formato(promedio)} {unid}"
+                f"{gf.formato(promedio)} {unid}"
             )
      with mediana:
         with st.container(border=True):
             st.metric(
                 f"📈 Mediana de {var}",
-                f"{formato(df1[var].median())} {unid}"
+                f"{gf.formato(df1[var].median())} {unid}"
             )
      with dt:
          with st.container(border=True):
              desviacion_tipica = df1[var].std()
              st.metric(
                 f"📉 Desviación típica para {var}",
-                f"{formato(desviacion_tipica)} {unid}"
+                f"{gf.formato(desviacion_tipica)} {unid}"
             )
      with cv:
         with st.container(border=True):
@@ -284,37 +282,41 @@ with pag1: # Análisis General SIN eliminacion de outliers
 
 
 
-with pag3:
-    col51, col52, col53 = st.columns(3)
+if pag3.open:
+  with pag3: # Análisis General SIN eliminacion de outliers
+      with st.spinner("Cargando frutos del análisis... 🍎✨"):
+         time.sleep(5)
+         
+      col51, col52, col53 = st.columns(3)
     
     # METRICAS ---------------------------------------------------------------
-    with col51:
+      with col51:
         with st.container(border=True):
             ds_produccion = gf.outliers("Production", df_filtrado)
             st.metric(
                 f"🌱 Desviación típica para Production (ton)",
-                formato(ds_produccion["Production"].std())
+                gf.formato(ds_produccion["Production"].std())
             )
-    with col52:
+      with col52:
         with st.container(border=True):
             ds_area = gf.outliers("Area", df_filtrado)
             st.metric(
                 f"🌽 Desviación típica para Area (hec)",
-                formato(ds_area["Area"].std())
+                gf.formato(ds_area["Area"].std())
             )
-    with col53:
+      with col53:
         with st.container(border=True):
             ds_rendimiento = gf.outliers("Yield", df_filtrado)
             st.metric(
                 f"🫚 Desviación típica para Yield (ton/hec)",
-                formato(ds_rendimiento["Yield"].std())
+                gf.formato(ds_rendimiento["Yield"].std())
             )
     # ------------------------------------------------------------------------
     
-    col61, col62 = st.columns(2)
+      col61, col62 = st.columns(2)
     
     # GRAFICOS A LA IZQUIERDA ------------------------------------------------
-    with col61:
+      with col61:
 
         with st.container(border=True):
              st.header("📈 Analisis Comparativo")
@@ -336,7 +338,7 @@ with pag3:
     # ------------------------------------------------------------------------
     
     # GRAFICOS A LA DERECHA --------------------------------------------------
-    with col62:   
+      with col62:   
                
         with st.container(border=True):
             linea2 = gf.linea_comparacion(df_filtrado)

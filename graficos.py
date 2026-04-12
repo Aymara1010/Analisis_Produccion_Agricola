@@ -1,5 +1,4 @@
 import pandas as pd
-import json
 import plotly.express as px
 import numpy as np
 
@@ -472,7 +471,14 @@ def dispercion(titulo, var1, var2, df):
     return fig
 
 
-    
+def formato(num): # Cambiar de formato números muy grandes
+        if num >= 1_000_000_000:
+            return f"{num/1_000_000_000:.2f} Billones" # NOTA: los "_" no afectan el calculo, solo es para llevar un orden visual
+        elif num >= 1_000_000:
+            return f"{num/1_000_000:.2f} Millones"
+        elif num >= 100_000:
+            return f"{num/1_000:.2f} Miles"
+        else: return f"{num:,.2f}"
 
 
 
