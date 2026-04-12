@@ -162,10 +162,24 @@ if pag1.open:
         with st.container(border=True):
            fig_mapa = gf.mapa(df_mapa, gdf, var, unid)
            st.plotly_chart(fig_mapa, use_container_width=True)
+     
+        with st.expander("Ver Analisis Geográfico:"):
+         st.markdown("""
+                     Según el indicador a evaluar, podemos ver que hay ciertas regiones con mayor concentración
+                     de su respectivo indicador, la India es un país de gran tamaño, por lo que sus estados puenden presentar
+                     ciertas caracteristicas que permitan que ese indicador cresca o decresca,
+                     """)
         
         with st.container(border=True):
             line = gf.linea(f"Evolución Temporal de {var}", var, df_filtrado)
             st.plotly_chart(line, use_container_width=True)  
+        
+        with st.expander("Ver Analisis Temporal:"):
+         st.markdown("""
+                     En la India, la agricultura a tenido una evolución constante a nivel general,
+                     sin embargo puede tuvo altas y bajas posiblemente a causas climaticas u otros factores 
+                     que pudieron afectar alguna de estos indicadores de producción a granescala, a pesar de eso poseen una tendencia positiva en general.
+                     """)
 
      with graficas:# SECTORES Y DISPERCIÓN
         
@@ -183,13 +197,27 @@ if pag1.open:
         with st.container(border=True):
             box = gf.boxplot(f"Variabilidad de {var} por Categoría de Cultivo", var, df_filtrado)
             st.plotly_chart(box, use_container_width=True)  
+        
+        with st.expander("Ver Analisis Catégorico:"):
+         st.markdown("""
+                     Podemos agrupar varios cultivos según su especie, al hacer esto podemos observar como se controla un poco
+                     la presencia de datos atípicos, esto puede deberse a las carateristicas fisiologias que comparten cada categoria.
+                     """)
             
     # -------------------------------------------------------------------------
 
     # GRAFICO NIVEL 2 ---------------------------------------------------------
+    
      with st.container(border=True):
         barras = gf.barras(f"Composición para {var} por Estado y Tipo de Cultivo", var, df_filtrado)
         st.plotly_chart(barras, use_container_width=True)
+        
+     with st.expander("Ver Tipos de Cultivo por estado:"):
+         st.markdown("""
+                     Podemos observar que hay una cierta predominancia en algunas categorias. Un país puede
+                     dedicarse particularmente en un tipo especifico de cultivo para poder comercializarlo, por lo que tiene a
+                     producirse masivamente.
+                     """)
     #--------------------------------------------------------------------------
     
     # PAGINA 2 (Analisis de la distribución de Variables numericas) ---------------------------------------------------------------------------
@@ -239,6 +267,13 @@ if pag2.open:
          with st.container(border=True):
              hist = gf.histograma(f"Hitorigrama para {var}", var, df1)
              st.plotly_chart(hist, use_container_width=True)
+         
+         with st.expander("Ver Analisis de Distribución:"):
+          st.markdown("""
+                     Podemos Observar una notable asimetria positiva, lo que indica que la mayoria
+                     de los cultivos estuvieron entre 0 y 100k, sin embargo lo casos con un gran indicador
+                     puede deberse a cultivos que tuvieron unas condiciones externas ideales.
+                     """)
 
          with st.container(border=True):
              top_cultivos1 = gf.top_mejores(f"Top 5 Cultivos con Mayor {var}", var, df1, "Crop")
@@ -269,7 +304,11 @@ if pag2.open:
               st.plotly_chart(top_cultivos2, use_container_width=True)   
         
                  
-
+     with st.expander("Ver Top Cultivos:"):
+         st.markdown("""
+                     Observar los Cultivos con mejor y menor catidad de un indicador nos permite conocer a fondo
+                     a fondo como están conpuestos los extremos de la distribución.
+                     """)
   
       # -----------------------------------------------------------------------------------   
 
@@ -278,7 +317,13 @@ if pag2.open:
              sector = gf.embudo(titulo=f"Porcentaje de Tipo de Cultivo en {var}", var=var, df=df1)
              st.plotly_chart(sector, use_container_width=True)
         # --------------------------------------------------------------------
-
+        
+     with st.expander("Ver Top Cultivos:"):
+         st.markdown("""
+                     Aquí podemos ver que porcentaje ocupa cata tipo de cultipo en la distribución,
+                     podemos ver que siempre hay un cultivo dominante, esto puede deberse a que cierto tipo presenta diversas
+                     caracteristicas que disparan este indicador.
+                     """)
 
 
 
@@ -362,4 +407,10 @@ if pag3.open:
             
             dispecion = gf.dispercion(f"Gráfico de Disperción de {comparacion} por Tipo de Cultivo",var1, var2, df_filtrado)
             st.plotly_chart(dispecion, use_container_width=True)
+            
+      with st.expander("Ver Relaciones:"):
+         st.markdown("""
+                     Podemos ver que tanto el área como el rendimiento poseen una relación directa
+                     con la producción, sin embargo la relación entre ellas no es muy fuerte.
+                     """)
     # ------------------------------------------------------------------------
