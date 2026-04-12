@@ -487,15 +487,20 @@ En el análisis de las barras observamos que la papa, la banana y la cebolla son
 
 \chapter{Conclusiones y Recomendaciones}
 
-\textbf{1.-} Conclusion 1 del trabajo de investigación.\
+Después de realizar el análisis de datos  en el presente estudio  y observar la evolución de la producción podemos concluir lo siguiente:
 
-\textbf{Recomendación} Recomendación 1 del trabajo de investigación.\
+\textbf{1.-}  En el periodo del año 1997 hasta el 2009 la agricultura tuvo una evolución constante, aunque tuvo altas y bajas a causa principalmente del clima al pasar los años se visualizó que nunca dejó de crecer su producción. 
+\
 
-\textbf{2.-} Conclusion 2 del trabajo de investigación.\
+\textbf{Recomendación}  Tener en cuenta la temporada en la que se cultiva para que el clima no sea un factor en contra y así poder  tener mejor rendimiento con respecto a la producción.\
 
-\textbf{Recomendación} Recomendación 2 del trabajo de investigación.\
+\textbf{2.-} Se determinó que los sectores con mayor producción son aquellos ubicados al sur de la India, siendo esos los estados más montañosos. \
 
-\textbf{n.-} Conclusion n del trabajo de investigación.\
+\textbf{Recomendación} 
+\
+
+\textbf{3.-} Y por último se observó que  los cultivos con mayor producción (papa, banana, cebolla) son los cultivos que se producen más en poco espacio, por lo que ayuda no solo a su producción sino a su economía 
+.\
 
 \textbf{Recomendación} Recomendación n del trabajo de investigación.\
 
