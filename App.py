@@ -128,21 +128,21 @@ if pag1.open:
         with st.container(border=True):
             st.metric(
                 "🪴 Producción Total (ton)",
-                f"{gf.formato(df_filtrado["Production"].sum())}"
+                f"{gf.formato(df_filtrado['Production'].sum())}"
             )
 
      with metrica2:
         with st.container(border=True):
             st.metric(
                 "🌾 Área Cultivas Total (hec)",
-                f"{gf.formato(df_filtrado["Area"].sum())}",
+                f"{gf.formato(df_filtrado['Area'].sum())}",
             )
 
      with metrica3:
         with st.container(border=True):
             st.metric(
                 "🚜 Rendimiento General (ton/hec)",
-                f"{gf.formato(df_filtrado["Yield"].mean())}", # El rendimiento es mejor expresarlo con promedios
+                f"{gf.formato(df_filtrado['Yield'].mean())}", # El rendimiento es mejor expresarlo con promedios
             )
 
      with metrica4:
