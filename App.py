@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import streamlit as st
-import geopandas as gpd
+import json
 import plotly.express as px
 import graficos as gf
 
@@ -14,11 +14,11 @@ st.set_page_config(
     )
 
 # Cargar Datos:
-
-@st.cache_data() # Datos geograficos
-def load_geojson():
-    geo =  gpd.read_file("Dataset/india_state.geojson")
-    return geo
+@st.cache_data()
+def load_geo():
+  with open("Dataset/india_state.geojson") as f:
+        geo = json.load(f)
+        return geo
 
 @st.cache_data() # Dataset limpiado (ver Limpieza.py)
 def load_data():
@@ -27,8 +27,8 @@ def load_data():
 
 # Almacenar data en variables:
 
-gdf = load_geojson()
 df = load_data()
+gdf = load_geo()
 
 # Titulo de la Página:
 st.title("🌱 Análisis de la Producción Agricola en la India (1997-2009)")
@@ -80,15 +80,16 @@ with st.sidebar:
 # APLICAR FILTROS: 
 df_filtrado = df[(df["Crop_Year"] >= anio[0]) & (df["Crop_Year"] <= anio[1]) & (df["Crop_Type"].isin(cultivo)) & (df["State"].isin(estado))]
 
-# agrupar df por estado segun la variable seleccionada
-estados_agrupados = df_filtrado.groupby("State")[[var]].sum().reset_index()
+resumen_estados = df_filtrado.groupby("State")[[var]].sum().reset_index()
 
-# Concatenar con datos geometricos
-gdf_filtrado = gdf.merge(estados_agrupados, left_on='NAME_1', right_on="State", how='left').drop(columns="State")
+nombres_geo = [f['properties']['NAME_1'] for f in gdf['features']]
+df_base = pd.DataFrame({'State': nombres_geo})
 
-# Sacar log y llenar Na para el mapa
-gdf_filtrado[f"{var}_log"] = np.log10(gdf_filtrado[var])
-gdf_filtrado[f"{var}_log"] = gdf_filtrado[f"{var}_log"].fillna(-666)
+df_base['match'] = df_base['State'].astype(str).str.upper().str.strip()
+resumen_estados['match'] = resumen_estados['State'].astype(str).str.upper().str.strip()
+
+df_mapa = pd.merge(df_base, resumen_estados.drop(columns=['State']), on="match", how="left").fillna(0)
+df_mapa[f"{var}_log"] = np.log10(df_mapa[var] + 1)
 
 # UNIDAD DE MEDIDA:
 
@@ -164,8 +165,8 @@ with pag1: # Análisis General SIN eliminacion de outliers
 
     with mapa: # MAPA GEOGRAFICO
         with st.container(border=True):
-           fig = gf.mapa(gdf_filtrado, var, unid)
-           st.plotly_chart(fig, use_container_width=True)
+           fig_mapa = gf.mapa(df_mapa, gdf, var, unid)
+           st.plotly_chart(fig_mapa, use_container_width=True)
         
         with st.container(border=True):
             line = gf.linea(f"Evolución Temporal de {var}", var, df_filtrado)
@@ -242,9 +243,9 @@ with pag1: # Análisis General SIN eliminacion de outliers
              st.plotly_chart(hist, use_container_width=True)
 
          with st.container(border=True):
+             top_cultivos1 = gf.top_mejores(f"Top 5 Cultivos con Mayor {var}", var, df1, "Crop")
+             st.plotly_chart(top_cultivos1, use_container_width=True)
              
-             sector = gf.sectores(f"Porcentaje de Tipo de Cultivo en {var}", var, df1)
-             st.plotly_chart(sector, use_container_width=True)
      # ----------------------------------------------------------------------------------
 
      # GRAFICAS A LA DERECHA ------------------------------------------------------------
@@ -260,25 +261,24 @@ with pag1: # Análisis General SIN eliminacion de outliers
                          * El gráfico de barra divergente nos permite analizar la desviación de la media de {var} de cada estado con respecto a su media poblacional.
                          """)
              st.markdown("**IMPORTANTE:** para analizar correctamente la distribución de la variable en general, lo mejor es eliminar los datos atipicos.")
-            
+             st.markdown("")
+             st.markdown("")
+             st.markdown("")
+             st.markdown("")
+             
          with st.container(border=True):
-             sub11 , sub12 = st.tabs([
-             "Top Mejores",
-             "Top Peores"
-              ])
-
-             with sub11:
-                 top_cultivos1 = gf.top_mejores(f"Top 5 Cultivos con Mayor {var}", var, df1, "Crop")
-                 st.plotly_chart(top_cultivos1, use_container_width=True)
-             with sub12:
-                 top_cultivos2 = gf.top_peores(f"Top 5 Cultivos con Menor {var}", var, df1, "Crop")
-                 st.plotly_chart(top_cultivos2, use_container_width=True)
+              top_cultivos2 = gf.top_peores(f"Top 5 Cultivos con Menor {var}", var, df1, "Crop")
+              st.plotly_chart(top_cultivos2, use_container_width=True)   
+        
+                 
 
   
       # -----------------------------------------------------------------------------------   
 
       # GRAFICA DE ABAJO ------------------------------------------------------------------        
-
+     with st.container(border=True):
+             sector = gf.embudo(titulo=f"Porcentaje de Tipo de Cultivo en {var}", var=var, df=df1)
+             st.plotly_chart(sector, use_container_width=True)
         # --------------------------------------------------------------------
 
 

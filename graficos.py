@@ -1,5 +1,5 @@
 import pandas as pd
-import geopandas as gpd
+import json
 import plotly.express as px
 import numpy as np
 
@@ -18,21 +18,28 @@ paleta_verde = [
     [1, '#E3EF26'] 
     ]
 
-verde = ['#032221','#06302B','#0B453A', '#03624C', '#17876D', '#2FA98C','#2CC295','#00DF81']
+verde = ['#0B453A', '#03624C', '#17876D', '#2FA98C','#2CC295','#00DF81']
 
 # MAPA GEOGRAFICO:
-def mapa(df, var, unid):
+def mapa(df, geo, var, unid):
     fig = px.choropleth(
-            df,
-            geojson=df["geometry"],
-            locations=df.index,
-            color=f"{var}_log",
-            hover_name="NAME_1",
-            hover_data={f"{var}_log": False, var: True},
-            color_continuous_scale=paleta_verde
-            )
-    
-    # Opciones de Visualización
+        df,
+        geojson=geo,
+        locations="State",
+        featureidkey="properties.NAME_1",
+        color=f"{var}_log",
+        hover_name="State",
+        hover_data={f"{var}_log": False, var: True},
+        color_continuous_scale=paleta_verde
+    )
+
+    fig.update_geos(
+        fitbounds="locations", 
+        visible=False,
+        bgcolor='rgba(0,0,0,0)',
+        showframe=False
+    )
+
     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
@@ -56,22 +63,11 @@ def mapa(df, var, unid):
         coloraxis_cmax=df[f"{var}_log"].max()
     )
     
-    # Opciones geográficas
-    fig.update_geos(
-    visible=False,           # Oculta la base del mapamundi
-    showland=False,          # Quita el color de tierra del resto de países
-    showocean=False,         # Quita el color del océano
-    showlakes=False,         # Desactiva lagos externos
-    showcountries=False,     # No dibuja fronteras de otros países
-    showcoastlines=False,    # Quita las líneas de costa globales
-    fitbounds="locations",   # Hace que la India ocupe todo el cuadro
-    bgcolor="rgba(0,0,0,0)"  # Fondo transparente
-)
-    # Opciones de bordes
+
     fig.update_traces(marker_line_color='white', marker_line_width=0.4)
 
-    return fig
 
+    return fig
 
 # BOXPLOTS:
 
@@ -81,8 +77,7 @@ def boxplot(titulo, var, df):
     x="Crop_Type", 
     y=var, 
     color="Crop_Type",
-    color_discrete_sequence=verde[::-1],
-    points="all",          
+    color_discrete_sequence=['#E3EF26', '#BDFF00', '#7FFF00', '#2DE1C2', '#17876D', '#2FA98C', '#00DF81'],          
     log_y=True,            
     title=titulo,
     labels={
@@ -94,7 +89,7 @@ def boxplot(titulo, var, df):
     fig.update_traces(pointpos=0, jitter=0.3)
     
     fig.update_layout(
-        height=450,
+        height=400,
     title_x=0.5,
     showlegend=True,
     title={
@@ -109,31 +104,37 @@ def boxplot(titulo, var, df):
     return fig
 
 # SECTORES:
+def embudo(df, var, titulo):
+    resumen = df.groupby("Crop_Type")[var].sum().reset_index()
+    resumen = resumen.sort_values(by=var, ascending=False)
 
-def sectores(titulo, valores, df):
-    
-    fig = px.pie(
-        df, 
-        values=valores, 
-        names='Crop_Type', 
+    fig = px.funnel(
+        resumen,
+        y='Crop_Type',
+        x=var,
         title=titulo,
+        template="plotly_dark",
         color='Crop_Type',
-        color_discrete_sequence=verde[::-1],
-        template="plotly_white"
+        color_discrete_sequence=verde[::-1]
     )
-    
-    fig.update_traces(textposition='inside', textinfo='percent+label')
-    fig.update_layout(height=400,
-                      title_x=0.5,
-                      title={
+
+    fig.update_layout(
+        showlegend=False,
+        margin={"r":20,"t":80,"l":150,"b":20},
+        height=500,
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        title={
             'text': titulo,
             'y': 0.95,
             'x': 0.5,
             'xanchor': 'center',
             'yanchor': 'top',
             'font': {'size': 20, 'color': 'white'}
-        })
-    
+        },
+        yaxis={'categoryorder':'array', 'categoryarray': resumen['Crop_Type'].tolist()}
+    )
+
     return fig
 
 # BARRAS APILADAS:
@@ -375,7 +376,7 @@ def matriz(df):
     fig.update_layout(
     title_x=0.5,
     width=600,
-    height=600,
+    height=500,
     title={
             'text': "Matriz de Correlación: Producción, Rendimiento y Área",
             'y': 0.95,
