@@ -55,7 +55,7 @@ library(kableExtra)
 library(scales)
 ```
 
-\\chapter\*{Introducción}
+\chapter*{Introducción}
 
 La agricultura es una de las actividades económicas más cruciales en la economía de cualquier país produciendo alimentos, materias primas y generando empleos a gran parte de la población. Asimismo, la India alberga una de las economías agrícolas más grandes del mundo con el 7,5% de la producción agrícola a nivel global, convirtiéndose en uno de los principales países productores agrícolas del mundo.\
 
@@ -69,7 +69,7 @@ A causa de esto, resulta de interés investigar estadísticamente el comportamie
 
 Por eso, el presente estudio tiene como finalidad realizar un análisis estadístico descriptivo del conjunto de datos “rendimiento de los cultivos agrícolas en los estados de la India” que abarca datos agrícolas de múltiples cultivos plantados en varios estados de la India desde 1997 hasta 2020. Haciendo uso de herramientas para el análisis de datos del lenguaje de programación R y de técnicas de visualización de datos.\
 
-\\section\*{Estructura de Informe}
+\section*{Estructura de Informe}
 
 \begin{itemize}
 
@@ -329,17 +329,15 @@ Para analizar estas series, se suelen descomponeren cuatro elementos clave:
 
 \chapter{Marco Metódico}
 
-En este capítulo se visualizarán todas los procedimientos, pruebas y metodologías estadísticas para sustentar la hipótesis planteada en nuestro trabajo. Se detalla el comportamiento de los datos de  Agricultura.cvs, técnicas de limpieza (Data Wrangling) y los tests de inferencia utilizados para determinar la significancia estadística de los tipos de cultivos de la India y su producción. 
-En este análisis utilizaremos el lenguaje de programación R, con el Desarrollo de RStudio, empleando  empleando el paradigma “Tidyverse” para la manipulación de datos. \
+En este capítulo se visualizarán todas los procedimientos, pruebas y metodologías estadísticas para sustentar la hipótesis planteada en nuestro trabajo. Se detalla el comportamiento de los datos de Agricultura.cvs, técnicas de limpieza (Data Wrangling) y los tests de inferencia utilizados para determinar la significancia estadística de los tipos de cultivos de la India y su producción. En este análisis utilizaremos el lenguaje de programación R, con el Desarrollo de RStudio, empleando empleando el paradigma “Tidyverse” para la manipulación de datos.\
 
 \section{Bases metódicas utilizadas en el trabajo de investigación}
 
-En la presente investigación fijamos una variable cuantitativa a nivel descriptivo, ya que, se busca caracterizar la situación agrícola procesando datos numéricos de la producción, áreas cultivadas y rendimiento agrícola en la India. 
-Dicho esto se utilizó bases metódicas estadísticas integrando datos cuantitativos y cualitativos. \
+En la presente investigación fijamos una variable cuantitativa a nivel descriptivo, ya que, se busca caracterizar la situación agrícola procesando datos numéricos de la producción, áreas cultivadas y rendimiento agrícola en la India. Dicho esto se utilizó bases metódicas estadísticas integrando datos cuantitativos y cualitativos.\
 
-\subsection{Procesamiento y Limpieza de Datos (ETL)}
+\subsubsection{Procesamiento y Limpieza de Datos (ETL)}
 
-En este trabajo se utilizó el procesamiento y limpieza de datos (ETL), el cual se caracteriza por realizar cambios en la data, permitiendo mover información desde múltiples fuentes hacia un solo destino, facilitando así el  análisis y comprensión requerido para la realización de nuestros objetivos. En Este caso se utilizó para extraer los datos obtenidos en el dataset Agricultura.csv
+En este trabajo se utilizó el procesamiento y limpieza de datos (ETL), el cual se caracteriza por realizar cambios en la data, permitiendo mover información desde múltiples fuentes hacia un solo destino, facilitando así el análisis y comprensión requerido para la realización de nuestros objetivos. En Este caso se utilizó para extraer los datos obtenidos en el dataset Agricultura.csv
 
 Este proceso cuenta de tres fases, como lo son:
 
@@ -347,41 +345,47 @@ Este proceso cuenta de tres fases, como lo son:
  \item{\textbf{La extracción:} Se recopiló los datos del dataset dado Agricultura.csv}
  \item{\textbf{La transformación:} En esta fase  se limpio, ordenó y estandarizo los datos  para obtener información de alta calidad.}
  \item{\textbf{La carga:}Por último  los datos ya procesados se almacenan en un sistema de destino, por lo general en un Data Warehouse (Almacén de datos).}
-\end{itemize} \
+\end{itemize}
 
-\subsection{Selección de Datos Necesarios}
+\
 
-En esta fase se filtraron las columnas del dataset Agricultura.csv para realizar de una manera más eficaz el análisis de las variables. En este caso las variables cuantitativas utilizadas fueron: Crop_Year, Crop, State; destacando además variables explicativas como lo son Production, Area y Yield. \
+\subsubsection{Selección de Datos Necesarios}
 
-\subsection{Verificación de Datos Faltantes}
+En esta fase se filtraron las columnas del dataset Agricultura.csv para realizar de una manera más eficaz el análisis de las variables. En este caso las variables cuantitativas utilizadas fueron: Crop_Year, Crop, State; destacando además variables explicativas como lo son Production, Area y Yield.\
 
-Con la ayuda de Tidyverse utilizando librerías como los son  (“dplyr” y “tidyr”), se escaneo el dataset en busca de valores nulos, acomodando así nuestra data. \ 
+\subsubsection{Verificación de Datos Faltantes}
 
-\subsection{Categorización de Cultivos y Estados}
+Con la ayuda de Tidyverse utilizando librerías como los son (“dplyr” y “tidyr”), se escaneo el dataset en busca de valores nulos, acomodando así nuestra data.  
 
-Para facilitar el análisis,  se agruparon sectores de cultivos creando nueva información colocada en etiquetas. Un cultivo como “Arroz” y “Frijoles” se colocó en la  nueva Variable (Crop_Year) como “Cereales y Granos” , permitiendo comparar el crecimiento de cereales básicos con legumbres o cultivos comerciales.\
+\subsubsection{Categorización de Cultivos y Estados}
 
-\subsection{Categorización de Cultivos y Estados}
+Para facilitar el análisis, se agruparon sectores de cultivos creando nueva información colocada en etiquetas. Un cultivo como “Arroz” y “Frijoles” se colocó en la nueva Variable (Crop_Year) como “Cereales y Granos” , permitiendo comparar el crecimiento de cereales básicos con legumbres o cultivos comerciales.\
 
+\subsubsection{Categorización de Cultivos y Estados}
 
-Por último se  identificaron anomalías estadísticas, y se utilizaron los métodos estadísticos correspondientes (moda, media, mediana, rango intercuartílico , media aritmética y varianza) para visualizarla de una mejor manera.\
-
+Por último se identificaron anomalías estadísticas, y se utilizaron los métodos estadísticos correspondientes (moda, media, mediana, rango intercuartílico , media aritmética y varianza) para visualizarla de una mejor manera.\
 
 \chapter{Análisis de Resultados}
 
 {\small Este capítulo presenta los resultados obtenidos al aplicar las metodologías descritas en el capítulo anterior, así como del análisis estadístico descriptivo de las variables estudiadas y las ventajas y desventajas al aplicar dichos tests.}
 
-\section{Presentación de resultados 1}
+\subsubsection*{REGIONES CON MAYOR Y MENOR PRODUCCIÓN}
 
-Descripción\
+Al observar el mapa de calor de la India realizado en el Dashboard, tenemos como resultado una distribución desigual. Las regiones del norte y el centro del país presentan una actividad muy escasa, mientras que el sur y zonas montañosas del país aparecen con color más intenso, lo que nos indica que la producción agrícola es más alta.
 
-\section{Presentación de resultados 2}
+Respondiendo así a la pregunta principal ¿Cuáles son las regiones con mayor y menor producción agrícola?.
 
-Descripción\
+Los estados con mayor producción se encuentran al sur de la India, teniendo a Kerala como el estado con más de 74000 millones; mientras que Jammu and Kashmir se sitúa como el estado con menor producción agrícola con un total de 63330.
 
-\section{Presentación de resultados n}
+Esto nos permite concluir que la producción está ligada a la geografía, concentrándose en las zonas donde hay mejor tierra y son más altas lo que permite una mejor cosecha.\
 
-Descripción\
+\subsubsection*{¿CÓMO HA EVOLUCIONADO LA PRODUCCIÓN Y EL RENDIMIENTO A TRAVÉS DEL TIEMPO?}
+
+El gráfico de evolución temporal, el cual indica la respuesta a nuestro objetivo numero 2, nos muestra un crecimiento constante. Desde 1997 hasta el año 2009, no ha decaído en ningún momento. Aunque se muestran pequeños saltos entre años (subidas y bajadas) probablemente causados por el clima, la tendencia general es muy positiva; demostrando que la India no solo ha mantenido el ritmo de producción, sino que produce cada vez más.\
+
+\subsubsection*{¿CÓMO AFECTA EL TIPO DE CULTIVO EN EL ÁREA CULTIVADA?}
+
+En el análisis de las barras observamos que la papa, el banano y la caña de azúcar son los cultivos que lideran el volumen de producción general. Destacan por su eficiencia y rendimiento por área, ya que producen mucho en poco espacio. Al enfocarse en estos cultivos esto le permite al país tener más ganancias y asegurar alimento para la población. Respondiedno asi a nuestro tercer objetivo planteado en la investigación \
 
 \chapter{Conclusiones y Recomendaciones}
 
@@ -405,3 +409,4 @@ Descripción\
 \chapter{Anexo B}
 
 \chapter{Anexo C}
+
