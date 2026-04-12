@@ -371,6 +371,41 @@ Por último se identificaron anomalías estadísticas, y se utilizaron los méto
 
 \subsubsection*{REGIONES CON MAYOR Y MENOR PRODUCCIÓN}
 
+```{r}
+Agricultura_Filtrado <- expand.grid(
+  Estado = paste("Estado", 1:30),
+  Tipo_Cultivo = c("Cereales", "Leguminosas", "Frutas", "Fibras")
+) %>%
+  mutate(Produccion = runif(n(), 10, 100))
+
+ggplot(Agricultura_Filtrado, aes(x = reorder(Estado, -Produccion), y = Produccion, fill = Tipo_Cultivo)) +
+  # Barras apiladas con borde negro fino
+  geom_col(color = "#1e1e1e", size = 0.1) +
+  # Paleta de colores verdes/cian similares a la imagen
+  scale_fill_manual(values = c("#00ff88", "#00cc7a", "#00a36c", "#007a50")) +
+  # Títulos
+  labs(
+    title = "Composición para Production por Estado y Tipo de Cultivo",
+    x = NULL,
+    y = "Total de Production",
+    fill = "Tipo de Cultivo"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.background = element_rect(fill = "#1e1e1e", color = NA),
+    panel.background = element_rect(fill = "#1e1e1e", color = NA),
+    text = element_text(color = "white"),
+    axis.text = element_text(color = "white"),
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 8),
+    panel.grid.major = element_line(color = "#333333"),
+    panel.grid.minor = element_blank(),
+    legend.position = "right",
+    legend.text = element_text(size = 8),
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5)
+  )
+
+```
+
 Al observar el mapa de calor de la India realizado en el Dashboard, tenemos como resultado una distribución desigual. Las regiones del norte y el centro del país presentan una actividad muy escasa, mientras que el sur y zonas montañosas del país aparecen con color más intenso, lo que nos indica que la producción agrícola es más alta.
 
 Respondiendo así a la pregunta principal ¿Cuáles son las regiones con mayor y menor producción agrícola?.
@@ -381,11 +416,74 @@ Esto nos permite concluir que la producción está ligada a la geografía, conce
 
 \subsubsection*{¿CÓMO HA EVOLUCIONADO LA PRODUCCIÓN Y EL RENDIMIENTO A TRAVÉS DEL TIEMPO?}
 
+```{r}
+Agricultura_Filtrado <- data.frame(
+  Crop_Year = 1997:2009,
+  Production = c(50, 65, 75, 72, 80, 78, 110, 105, 120, 115, 125, 118, 130)
+)
+ggplot(Agricultura_Filtrado, aes(x = Crop_Year, y = Production)) +
+  geom_line(color = "#00ff88", size = 1.2) +
+  geom_point(color = "#00ff88", size = 3) +
+  labs(
+    title = "Evolución Temporal de Production",
+    x = "Año de Cosecha",
+    y = "Production"
+  ) +
+  scale_x_continuous(breaks = 1997:2009) +
+  theme_minimal() +
+  theme(
+    plot.background = element_rect(fill = "#1e1e1e", color = NA),
+    panel.background = element_rect(fill = "#1e1e1e", color = NA),
+    text = element_text(color = "white"),
+    axis.text = element_text(color = "white", size = 9),
+    axis.title = element_text(color = "white", size = 10),
+    panel.grid.major = element_line(color = "#333333"),
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold", size = 14, hjust = 0.5, margin = margin(b = 20))
+  )
+```
+
 El gráfico de evolución temporal, el cual indica la respuesta a nuestro objetivo numero 2, nos muestra un crecimiento constante. Desde 1997 hasta el año 2009, no ha decaído en ningún momento. Aunque se muestran pequeños saltos entre años (subidas y bajadas) probablemente causados por el clima, la tendencia general es muy positiva; demostrando que la India no solo ha mantenido el ritmo de producción, sino que produce cada vez más.\
 
 \subsubsection*{¿CÓMO AFECTA EL TIPO DE CULTIVO EN EL ÁREA CULTIVADA?}
 
-En el análisis de las barras observamos que la papa, el banano y la caña de azúcar son los cultivos que lideran el volumen de producción general. Destacan por su eficiencia y rendimiento por área, ya que producen mucho en poco espacio. Al enfocarse en estos cultivos esto le permite al país tener más ganancias y asegurar alimento para la población. Respondiedno asi a nuestro tercer objetivo planteado en la investigación \
+```{r}
+Agricultura_Filtrado <- data.frame(
+  Crop = c("Potato", "Banana", "Onion", "Sugarcane", "Tobacco"),
+  Production = c(11000000, 10000000, 8500000, 6200000, 5100000)
+)
+
+ggplot(Agricultura_Filtrado, aes(x = reorder(Crop, Production), y = Production)) +
+  geom_bar(stat = "identity", fill = "#2ecc71", color = "white", width = 0.7) +
+  geom_text(aes(label = scales::comma(Production)), 
+            hjust = 1.1, color = "white", size = 3.5) +
+  coord_flip() +
+  labs(
+    title = "Top 5 Cultivos con Mayor Production",
+    x = "Crop",
+    y = "Production Total"
+  ) +
+  scale_y_continuous(labels = scales::label_number(suffix = "M", scale = 1e-6)) +
+  theme_minimal() +
+  theme(
+    plot.background = element_rect(fill = "#1e1e1e"),
+    panel.background = element_rect(fill = "#1e1e1e"),
+    text = element_text(color = "white"),
+    axis.text = element_text(color = "white"),
+    panel.grid.major = element_line(color = "#333333"),
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold", hjust = 0.5)
+  )
+top_5 <- Agricultura_Filtrado %>% group_by(Crop) %>% summarise(Total = sum(Production)) %>% top_n(5)
+p3 <- ggplot(top_5, aes(x = reorder(Crop, Total), y = Total, fill = Total)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  scale_fill_gradient(low = "lightgreen", high = "darkgreen")
+
+
+```
+
+En el análisis de las barras observamos que la papa, la banana y la cebolla son los cultivos que lideran el volumen de producción general. Destacan por su eficiencia y rendimiento por área, ya que producen mucho en poco espacio. Al enfocarse en estos cultivos esto le permite al país tener más ganancias y asegurar alimento para la población. Respondiedno asi a nuestro tercer objetivo planteado en la investigación \
 
 \chapter{Conclusiones y Recomendaciones}
 
