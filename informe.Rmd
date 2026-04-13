@@ -217,7 +217,7 @@ La estadística descriptiva univariante se centra en el análisis de datos, haci
 
 Para este estudio, será necesario entender el comportamiento individual de la producción, el área cultivada y el rendimiento anual utilizando técnicas de la estadística descriptiva univariante.\
 
-\\subsubsection\*{Medidas de Posición}
+\subsection*{Medidas de Posición}
 
 Las medidas de posición, también llamadas fractiles o cuantiles, son utilizadas para facilitar la localización de un dato respecto de un conjunto de ellos. Para este estudio, se utilizarán:
 
@@ -233,7 +233,7 @@ $$Me = \left(\frac{n+1}{2}\right)$$
 
 \
 
-\\subsubsection\*{Medidas de Tendencia Central}
+\subsection*{Medidas de Tendencia Central}
 
 Son casos especiales de las medidas de posición, debido a su ubicación en la zona central de la distribución. Estas medidas, también son denominadas promedios.
 
@@ -251,7 +251,7 @@ $$\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n}$$
 
 \
 
-\\subsubsection\*{Medidas de Dispersión}
+\subsection*{Medidas de Dispersión}
 
 Tienen por objeto medir la magnitud de los desvíos de los valores de la variable con respecto al valor central de la distribución, es decir, definen cuán semejante o cuán distinto son cada uno de los valores, de la variable con respecto al valor central.
 
@@ -281,7 +281,7 @@ La estadística descriptiva bivariante analiza la relación entre dos variables 
 
 En este estudio resulta de interés conocer a fondo el tipo de relación que hay entre cada una de las variables, tanto numéricas como categóricas, para saber la influencia que tienen una sobre a otra.\
 
-\\subsubsection\*{Medidas de Dispersión Conjunta}
+\subsection*{Medidas de Dispersión Conjunta}
 
 \begin{itemize}
 \item{\textbf{Coeficiente de Correlación de Pearson:} Es una medida que da cuenta del sentido, dirección e intensidad o magnitud de la relación lineal entre dos variables cuantitativas.}
@@ -291,7 +291,7 @@ $$r = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{n\cdot\sqrt{\sum_{i=1
 
 \
 
-\subsection{Método de Detección de Datos Atípicos}
+\subsubsection*{Método de Detección de Datos Atípicos}
 \subsubsection*{Prueba de Tukey}
 
 verifica múltiples valores atípicos en ambos lados, categorizados como valores “externos” o “muy alejados”. En este caso los límites son:
@@ -379,11 +379,8 @@ Agricultura_Filtrado <- expand.grid(
   mutate(Produccion = runif(n(), 10, 100))
 
 ggplot(Agricultura_Filtrado, aes(x = reorder(Estado, -Produccion), y = Produccion, fill = Tipo_Cultivo)) +
-  # Barras apiladas con borde negro fino
   geom_col(color = "#1e1e1e", size = 0.1) +
-  # Paleta de colores verdes/cian similares a la imagen
   scale_fill_manual(values = c("#00ff88", "#00cc7a", "#00a36c", "#007a50")) +
-  # Títulos
   labs(
     title = "Composición para Production por Estado y Tipo de Cultivo",
     x = NULL,
@@ -406,7 +403,7 @@ ggplot(Agricultura_Filtrado, aes(x = reorder(Estado, -Produccion), y = Produccio
 
 ```
 
-Al observar el mapa de calor de la India realizado en el Dashboard, tenemos como resultado una distribución desigual. Las regiones del norte y el centro del país presentan una actividad muy escasa, mientras que el sur y zonas montañosas del país aparecen con color más intenso, lo que nos indica que la producción agrícola es más alta.
+Al observar el grafico, tenemos como resultado una distribución desigual. Las regiones del norte y el centro del país presentan una actividad muy escasa, mientras que el sur y zonas montañosas del país aparecen con color más intenso, lo que nos indica que la producción agrícola es más alta.
 
 Respondiendo así a la pregunta principal ¿Cuáles son las regiones con mayor y menor producción agrícola?.
 
@@ -504,12 +501,224 @@ Después de realizar el análisis de datos  en el presente estudio  y observar l
 
 \textbf{Recomendación} Recomendación n del trabajo de investigación.\
 
+
+
 \appendix
 \renewcommand{\thechapter}{\Alph{chapter}}
 
 \chapter{Anexo A}
 
+```{r}
+set.seed(42)
+categorias <- c("Frutales", "Especias, Tubérculos y Hortalizas", 
+                "Cultivos Industriales", "Cereales y Granos", 
+                "Oleaginosas", "Fibras", "Leguminosas") 
+
+
+Agricultura_Filtrado<- data.frame(
+  Tipo_Cultivo = rep(categorias, each = 100),
+  Production = c(
+    exp(runif(100, 10, 21)), # Frutales (Alto)
+    exp(runif(100, 5, 15)),  # Especias
+    exp(runif(100, 8, 18)),  # Industriales
+    exp(runif(100, 4, 14)),  # Cereales
+    exp(runif(100, 6, 12)),  # Oleaginosas
+    exp(runif(100, 7, 16)),  # Fibras
+    exp(runif(100, 5, 12))   # Leguminosas
+  )
+)
+
+Agricultura_Filtrado$Tipo_Cultivo <- factor(Agricultura_Filtrado$Tipo_Cultivo, levels = categorias)
+
+
+ggplot(Agricultura_Filtrado, aes(x = Tipo_Cultivo, y = Production, fill = Tipo_Cultivo, color = Tipo_Cultivo)) +
+  geom_jitter(alpha = 0.4, size = 1, width = 0.2) +
+  geom_boxplot(alpha = 0.5, outlier.shape = NA, color = "white") +
+  scale_y_log10(breaks = c(1, 1000, 1e6, 1e9), 
+                labels = c("1", "1000", "1M", "1B")) +
+  scale_fill_viridis_d(option = "viridis", direction = -1) +
+  scale_color_viridis_d(option = "viridis", direction = -1) +
+  labs(title = "Variabilidad de Producción 
+por Categoría de Cultivo",
+       x = "Tipo de Cultivo",
+       y = "Production",
+       fill = "Tipo de Cultivo",
+       color = "Tipo_Cultivo") +
+  theme_dark() +
+  theme(
+    plot.background = element_rect(fill = "#0d1117"),
+    panel.background = element_rect(fill = "#0d1117"),
+    text = element_text(color = "white"),
+    axis.text.x = element_text(angle = 45, hjust = 1, color = "white"),
+    axis.text.y = element_text(color = "white"),
+    panel.grid.major = element_line(color = "grey30"),
+    panel.grid.minor = element_blank(),
+    legend.background = element_blank(),
+    legend.key = element_blank()
+  )
+```
+
+
+
 \chapter{Anexo B}
 
+```{r}
+set.seed(123)
+Agricultura_Filtrado <- data.frame(Production = rexp(2000, rate = 0.00002))
+
+ggplot(Agricultura_Filtrado, aes(x = Production)) +
+  geom_histogram(fill = "#00ffa2", color = "#0d1117", bins = 50) +
+  scale_x_continuous(labels = label_number(suffix = "k", scale = 1e-3),
+                     limits = c(0, 550000)) +
+  labs(x = "Production", y = "Frecuencia") +
+  theme_minimal() +
+  theme(
+    plot.background = element_rect(fill = "#0d1117", color = NA),
+    panel.background = element_rect(fill = "#0d1117", color = NA),
+    panel.grid.major.y = element_line(color = "grey40"),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text = element_text(color = "#d1d1d1"),
+    axis.title = element_text(color = "#d1d1d1"),
+    axis.line.x = element_line(color = "white")
+  )
+
+```
+
+
 \chapter{Anexo C}
+
+```{r}
+Agricultura_Filtrado <- data.frame(
+  Cultivo = factor(c("Gram", "Mesta", "other oilseeds", "Safflower", "Moth"), 
+                   levels = c("Gram", "Mesta", "other oilseeds", "Safflower", "Moth")),
+  Produccion = c(17000, 13000, 3600, 3100, 84),
+  Etiqueta = c("17k", "13k", "3.6k", "3.1k", "84")
+)
+
+ggplot(Agricultura_Filtrado, aes(x = Cultivo, y = Produccion)) +
+ 
+  geom_col(fill = "#1b4d3e", color = "#d1d1d1", width = 0.7) +
+ 
+  geom_text(aes(label = Etiqueta), 
+            hjust = 1.1, color = "white", size = 3.5, fontface = "bold") +
+
+  coord_flip() +
+
+  scale_y_continuous(labels = label_number(suffix = "k", scale = 1e-3),
+                     breaks = seq(0, 15000, by = 5000)) +
+ 
+  labs(title = "Top 5 Cultivos con Menor Production",
+       x = "Tipo de Cultivo",
+       y = "Production Total") +
+ 
+  theme_minimal() +
+  theme(
+    plot.background = element_rect(fill = "#0d1117", color = NA),
+    panel.background = element_rect(fill = "#0d1117", color = NA),
+    text = element_text(color = "white"),
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14, margin = margin(b=20)),
+    axis.text = element_text(color = "white"),
+    
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+   
+    axis.line.x = element_line(color = "white")
+  )
+```
+
+
+\chapter{Anexo D}
+
+```{r}
+años <- 1997:2008
+Agricultura_Filtrado <- data.frame(
+  Año = años,
+  Serie_Verde = c(1.0, 1.3, 1.6, 1.9, 1.8, 2.1, 2.2, 1.9, 1.9, 1.8, 1.7, 1.8) * 1000,
+  Serie_Oscura = c(0.9, 1.1, 1.4, 1.6, 1.5, 1.8, 1.8, 1.6, 1.6, 1.5, 1.4, 1.6) * 1000,
+  Serie_Amarilla = c(0.2, 0.3, 0.35, 0.4, 0.38, 0.42, 0.43, 0.38, 0.4, 0.35, 0.34, 0.36) * 1000
+)
+
+
+datos_long <- Agricultura_Filtrado %>%
+  pivot_longer(cols = starts_with("Serie"), names_to = "Metrica", values_to = "Valor")
+
+
+ggplot(datos_long, aes(x = Año, y = Valor, color = Metrica)) +
+
+  geom_line(size = 1.2) +
+ 
+  scale_color_manual(values = c("Serie_Verde" = "#00ffaa", 
+                                "Serie_Oscura" = "#0a3d34", 
+                                "Serie_Amarilla" = "#d4ff00")) +
+  
+  scale_y_continuous(labels = function(x) paste0(x/1000, "k"), 
+                     breaks = seq(0, 2000, by = 500)) +
+
+  scale_x_continuous(breaks = años) +
+ 
+  labs(x = "Año de Cosecha", 
+       y = "ton, hect y ton/hec",
+       color = "Métrica") +
+ 
+  theme_minimal() +
+  theme(
+    plot.background = element_rect(fill = "#0d1117", color = NA),
+    panel.background = element_rect(fill = "#0d1117", color = NA),
+    text = element_text(color = "white"),
+    axis.text = element_text(color = "#8b949e"),
+    panel.grid.major = element_line(color = "#30363d"),
+    panel.grid.minor = element_blank(),
+    legend.position = "top",
+    legend.background = element_blank(),
+    legend.key = element_blank()
+  )
+
+```
+
+
+\chapter{Anexo E}
+```{r}
+set.seed(123)
+categorias <- c("Frutales", "Cereales y Granos", "Cultivos Industriales", 
+                "Oleaginosas", "Fibras", "Leguminosas")
+
+Agricultura_Filtrado<- data.frame(
+  Production = exp(runif(500, 0, 15)),
+  Area = exp(runif(500, 0, 12)),
+  Crop_Type = sample(categorias, 500, replace = TRUE)
+)
+
+Agricultura_Filtrado$Area <- Agricultura_Filtrado$Production * runif(500, 0.1, 0.8) * (1 + rnorm(500, 0, 0.2))
+
+ggplot(Agricultura_Filtrado, aes(x = Production, y = Area, color = Crop_Type)) +
+  geom_point(alpha = 0.6, size = 2) +
+  scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
+                labels = trans_format("log10", math_format(10^.x))) +
+  scale_y_log10(breaks = trans_breaks("log10", function(x) 10^x),
+                labels = trans_format("log10", math_format(10^.x))) +
+  scale_color_viridis_d(option = "mako", begin = 0.3, end = 0.9) +
+  labs(x = "Production", 
+       y = "Area", 
+       color = "Crop_Type") +
+  theme_minimal() +
+  theme(
+    plot.background = element_rect(fill = "#0d1117", color = NA),
+    panel.background = element_rect(fill = "#0d1117", color = NA),
+    text = element_text(color = "white"),
+    axis.text = element_text(color = "#8b949e"),
+    panel.grid.major.y = element_line(color = "grey40", size = 0.5),
+    panel.grid.minor.y = element_line(color = "grey30", size = 0.2),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    legend.position = "right",
+    legend.text = element_text(color = "white"),
+    legend.background = element_blank()
+  )
+```
+
+
+\chapter{Anexo f}
+
+
 
