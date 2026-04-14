@@ -21,7 +21,8 @@ verde = ['#0B453A', '#03624C', '#17876D', '#2FA98C','#2CC295','#00DF81']
 
 # MAPA GEOGRAFICO:
 def mapa(df, geo, var, unid):
-    fig = px.choropleth(
+    
+     fig = px.choropleth(
         df,
         geojson=geo,
         locations="State",
@@ -32,14 +33,14 @@ def mapa(df, geo, var, unid):
         color_continuous_scale=paleta_verde
     )
 
-    fig.update_geos(
+     fig.update_geos(
         fitbounds="locations", 
         visible=False,
         bgcolor='rgba(0,0,0,0)',
         showframe=False
     )
 
-    fig.update_layout(
+     fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
         margin={"r":0, "t":0, "l":0, "b":0}, 
@@ -63,10 +64,10 @@ def mapa(df, geo, var, unid):
     )
     
 
-    fig.update_traces(marker_line_color='white', marker_line_width=0.4)
+     fig.update_traces(marker_line_color='white', marker_line_width=0.4)
 
 
-    return fig
+     return fig
 
 # BOXPLOTS:
 
@@ -106,15 +107,33 @@ def boxplot(titulo, var, df):
 def embudo(df, var, titulo):
     resumen = df.groupby("Crop_Type")[var].sum().reset_index()
     resumen = resumen.sort_values(by=var, ascending=False)
+    resumen["porcentaje"] = round((resumen[var] / resumen[var].sum()) * 100, 2)
+    
 
     fig = px.funnel(
         resumen,
         y='Crop_Type',
-        x=var,
+        x="porcentaje",
         title=titulo,
         template="plotly_dark",
         color='Crop_Type',
         color_discrete_sequence=verde[::-1]
+    )
+    
+    fig.update_yaxes(title=None)
+    
+    fig.add_annotation(
+        dict(
+            x=0,
+            y=1.05,
+            xref="paper", 
+            yref="paper",
+            text="<b>Tipo de Cultivo</b>", 
+            showarrow=False,
+            font=dict(size=14, color="white"),
+            xanchor='right',
+            xshift=-10
+        )
     )
 
     fig.update_layout(
@@ -132,6 +151,7 @@ def embudo(df, var, titulo):
             'font': {'size': 20, 'color': 'white'}
         },
         yaxis={'categoryorder':'array', 'categoryarray': resumen['Crop_Type'].tolist()}
+        
     )
 
     return fig
@@ -217,7 +237,7 @@ def linea(titulo, var, df):
     )
     
     fig.update_layout(
-    height= 350,
+    height= 450,
     title_x=0.5, 
     xaxis_title="Año de Cosecha",
     yaxis_title=var,
@@ -313,7 +333,7 @@ def top_peores(titulo, var, df, tipo):
     fig.update_layout(
     title_x=0.5,
     xaxis_title=f"{var} Total",
-    yaxis_title="Tipo de Cultivo",
+    yaxis_title="Crop",
     coloraxis_showscale=False, 
     bargap=0.4,
     title={
@@ -415,7 +435,7 @@ def linea_comparacion(df):
         legend_orientation="h",
         legend_y=1.1,
          title={
-            'text': "Matriz de Correlación: Producción, Rendimiento y Área",
+            'text': "Comparación de la Evolución de Producción, Rendimiento y Área",
             'y': 0.95,
             'x': 0.5,
             'xanchor': 'center',
@@ -478,7 +498,9 @@ def formato(num): # Cambiar de formato números muy grandes
             return f"{num/1_000_000:.2f} Millones"
         elif num >= 100_000:
             return f"{num/1_000:.2f} Miles"
-        else: return f"{num:,.2f}"
+        else: 
+            valor = f"{num:,.2f}"
+            return valor.replace(",", "x").replace(".",",").replace("x",".")
 
 
 

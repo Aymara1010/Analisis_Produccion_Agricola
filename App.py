@@ -15,7 +15,7 @@ st.set_page_config(
     )
 
 # Cargar Datos:
-@st.cache_data()
+@st.cache_data(show_spinner=False)
 def load_geo():
     url = "https://raw.githubusercontent.com/Aymara1010/ayudenme/main/india_state.geojson"
     geo = requests.get(url)
@@ -28,9 +28,9 @@ def load_data():
 
 
 # Almacenar data en variables:
-
-df = load_data()
-gdf = load_geo()
+with st.spinner("🌱 Cosechando últimos detalles..."):
+  df = load_data()
+  gdf = load_geo()
 
 # Titulo de la Página:
 st.title("🌱 Análisis de la Producción Agricola en la India (1997-2009)")
@@ -80,6 +80,16 @@ with st.sidebar:
     st.markdown("""🌻 Creado por: 🌻 Asly Caputo y Aymara Andersen """)
     
 # APLICAR FILTROS: 
+if not cultivo:
+    st.divider()
+    st.warning("⚠️ Por favor, selecciona al menos un Tipo de Cultivo y un Estado para mostrar los datos")
+    st.stop()
+
+if not estado:
+    st.divider()
+    st.warning("⚠️ Por favor, selecciona al menos un Tipo de Cultivo y un Estado para mostrar los datos")
+    st.stop()
+
 df_filtrado = df[(df["Crop_Year"] >= anio[0]) & (df["Crop_Year"] <= anio[1]) & (df["Crop_Type"].isin(cultivo)) & (df["State"].isin(estado))]
 
 resumen_estados = df_filtrado.groupby("State")[[var]].sum().reset_index()
@@ -175,13 +185,15 @@ if pag1.open:
         with st.container(border=True):
             st.header("📊 Análisis General")
             st.markdown(f"""
-                        En esta sección podemos observar como se distribuye la variable {var} de manera geográfica, temporal y clasificatoria a traves de los siguientes gráficos:
-                        * El mapa coroplético identifica la intensidad de {var} a nivel geográfico.
-                        * El gráfico de distribución (Boxplot) permite comparar la variabilidad y el rendimiento entre las distintas categorías de cultivos. 
-                        * El gráfico de líneas traza la evolución temporal de {var}.
-                        * El gráfico de barrar apiladas nos deja observar a fondo la proporción que ocupan cada tipo de cultivo en cada estado seleccionado.
-                        """)
-            st.markdown("**IMPORTANTE:** para esta sección no se eliminó ningún dato atípico.")
+                        En esta sección podemos observar cómo se distribuye la variable *{var}* de manera geográfica, temporal y clasificatoria a través de los siguientes gráficos:
+
+                       * *Mapa Coroplético:* Identifica la intensidad de producción a nivel geográfico en los estados de la India. Los tonos más claros/amarillos indican las zonas con mayor volumen de cosecha.
+                       * *Evolución Temporal:* Traza la tendencia histórica de la producción. Se observa un crecimiento sostenido desde 1997.
+                       * *Variabilidad por Categoría (Boxplot):* Permite comparar la dispersión y los rangos de producción entre categorías. Donde se pueden observar los volúmenes más significativos y mayor cantidad de valores atípicos.
+                       * *Composición por Estado:* Un gráfico de barras apiladas que revela la proporción de cada tipo de cultivo dentro de cada estado, permitiendo identificar la especialización agrícola regional (ej. Kerala, Tamil Nadu).
+
+                       > *⚠️ NOTA:* Para esta sección general *no se eliminó ningún dato atípico*, con el fin de mostrar la magnitud real y total de la producción histórica.
+                       """)
 
         with st.container(border=True):
             box = gf.boxplot(f"Variabilidad de {var} por Categoría de Cultivo", var, df_filtrado)
@@ -245,7 +257,7 @@ if pag2.open:
 
      with col41:
          with st.container(border=True):
-             hist = gf.histograma(f"Hitorigrama para {var}", var, df1)
+             hist = gf.histograma(f"Histograma para {var}", var, df1)
              st.plotly_chart(hist, use_container_width=True)
          
 
@@ -259,19 +271,18 @@ if pag2.open:
      with col42:
          
          with st.container(border=True):
-             st.header("📌 Analisis de Distribución")
+             st.header("📌 Análisis de Distribución")
              st.markdown(f"""
-                         En esta sección observaremos la distribución y la dispersión individual de cada una de las variables para conocer un poco de su comportamiento:
-                         * El historigrama de nos permite visualizar la distribución general de {var}.
-                         * El gráfico de barras horizontales nos permite clasificar los mejores y peores cultivos en {var}.
-                         * El gráfico de sectores nos permite ver la proporción que ocupa cada tipo de cultivo en la variable {var}.
-                         * El gráfico de barra divergente nos permite analizar la desviación de la media de {var} de cada estado con respecto a su media poblacional.
-                         """)
-             st.markdown("**IMPORTANTE:** para analizar correctamente la distribución de la variable en general, lo mejor es eliminar los datos atipicos.")
-             st.markdown("")
-             st.markdown("")
-             st.markdown("")
-             st.markdown("")
+                         En esta sección observaremos la distribución y la dispersión individual de las variables para conocer a fondo su comportamiento:
+
+                        * *Histograma de {var}:* Nos permite visualizar la *distribución general* de la variable {var}, mostrando cómo se agrupan los registros según su volumen.
+                        * *Gráfico de Embudo (Sectores):* Permite ver la *proporción porcentual* que ocupa cada tipo de cultivo sobre el total, facilitando la identificación de los sectores dominantes.
+                        * *Top 5 de Cultivos:* Clasificamos los 5 productos con *mayor {var}* y los 5 con *menor {var}*  para contrastar los extremos del mercado.
+                        * *Análisis de Dispersión:* Nos ayuda a entender la desviación de la media y cómo se distribuyen los datos a lo largo de los diferentes estados y periodos.
+
+                        > *IMPORTANTE:* Para analizar correctamente la distribución de la variable en general, lo mejor es observar los datos tras eliminar los valores atípicos (outliers), evitando así distorsiones por valores extremos.
+                        """)
+
              
          with st.container(border=True):
               top_cultivos2 = gf.top_peores(f"Top 5 Cultivos con Menor {var}", var, df1, "Crop")
@@ -329,12 +340,15 @@ if pag3.open:
       with col61:
 
         with st.container(border=True):
-             st.header("📈 Analisis Comparativo")
+             st.header("📈 Análisis Comparativo")
              st.markdown("""
-                         En esta sección se analizará la relación entre las varibles relacionas a la producción del sector agrícola, permitiendo entender no solo cuánto se produce, sino qué tipo de relación tienen a través de los siguientes gráficos:
-                         * La matriz de correlación nos permite observar la relacion lineal entre cada una de las varibles, lo que permite identificar su tipo y magnitud de relación.
-                         * El gráfico de disperción nos permite analizar que tan dispersos y relacionados estan los datos entre si.
-                         * El gráfico de linea permite comparar la evolución temporal de cada una de las variables.
+                         En esta sección se analiza la relación entre las variables clave de la producción del sector agrícola, permitiendo entender no solo cuánto se produce, sino cómo interactúan los factores entre sí:
+
+                        * *Matriz de Correlación:* Nos permite observar la relación lineal entre *Production, Yield y Area*. Por ejemplo, vemos una fuerte correlación entre Producción y Área (0.79), lo que indica que a mayor terreno, la producción tiende a subir significativamente.
+                        * *Gráfico de Dispersión:* Analizamos qué tan dispersos y relacionados están los datos. Al observar Production vs Area, se nota una tendencia positiva clara, diferenciada por el **Tipo de Cultivo** para identificar cuáles son más eficientes por hectárea.
+                        * *Evolución Temporal:* El gráfico de líneas permite comparar la evolución histórica de cada variable. Se observa una tendencia creciente en la producción y el área hasta alcanzar picos cerca del año 2003.
+
+                        > *💡 Nota Técnica:* Para visualizar mejor las relaciones y evitar que los valores extremos compriman la gráfica, se ha optado por utilizar una *escala logarítmica* en los ejes, permitiendo una interpretación más clara de las magnitudes.
                          """)
              st.markdown("""**IMPORTANTE:** Para visualizar mejor las relaciones se opto por utilizar la escala logaritmica""")
              
