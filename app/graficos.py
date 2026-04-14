@@ -21,7 +21,7 @@ verde = ['#0B453A', '#03624C', '#17876D', '#2FA98C','#2CC295','#00DF81']
 
 # MAPA GEOGRAFICO:
 def mapa(df, geo, var, unid):
-    
+    # GRAFICO
      fig = px.choropleth(
         df,
         geojson=geo,
@@ -32,14 +32,16 @@ def mapa(df, geo, var, unid):
         hover_data={f"{var}_log": False, var: True},
         color_continuous_scale=paleta_verde
     )
-
+    
+    # GEOGRAFICO
      fig.update_geos(
         fitbounds="locations", 
         visible=False,
         bgcolor='rgba(0,0,0,0)',
         showframe=False
     )
-
+     
+     # VISUALES
      fig.update_layout(
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
@@ -52,8 +54,7 @@ def mapa(df, geo, var, unid):
             'yanchor': 'top',
             'font': {'size': 20, 'color': 'white'}
         },
-
-        coloraxis_colorbar=dict(
+            coloraxis_colorbar=dict(
             title= unid,
             thickness=15,
             len=0.7,
@@ -63,15 +64,16 @@ def mapa(df, geo, var, unid):
         coloraxis_cmax=df[f"{var}_log"].max()
     )
     
-
+     # TRAZOS
      fig.update_traces(marker_line_color='white', marker_line_width=0.4)
 
 
      return fig
 
-# BOXPLOTS:
 
+# BOXPLOTS:
 def boxplot(titulo, var, df):
+    # GRAFICOS
     fig = px.box(
     df, 
     x="Crop_Type", 
@@ -86,8 +88,10 @@ def boxplot(titulo, var, df):
     },
     template="plotly_white" 
     )
+    # TRAZOS
     fig.update_traces(pointpos=0, jitter=0.3)
     
+    # VISUALES
     fig.update_layout(
         height=400,
     title_x=0.5,
@@ -103,13 +107,15 @@ def boxplot(titulo, var, df):
     )
     return fig
 
+
 # SECTORES:
 def embudo(df, var, titulo):
+    # DATOS
     resumen = df.groupby("Crop_Type")[var].sum().reset_index()
     resumen = resumen.sort_values(by=var, ascending=False)
     resumen["porcentaje"] = round((resumen[var] / resumen[var].sum()) * 100, 2)
     
-
+    # GRAFICO
     fig = px.funnel(
         resumen,
         y='Crop_Type',
@@ -120,8 +126,10 @@ def embudo(df, var, titulo):
         color_discrete_sequence=verde[::-1]
     )
     
+    # EJES
     fig.update_yaxes(title=None)
     
+    # GRAFICO
     fig.add_annotation(
         dict(
             x=0,
@@ -135,7 +143,8 @@ def embudo(df, var, titulo):
             xshift=-10
         )
     )
-
+    
+    # VISUALES
     fig.update_layout(
         showlegend=False,
         margin={"r":20,"t":80,"l":150,"b":20},
@@ -156,12 +165,14 @@ def embudo(df, var, titulo):
 
     return fig
 
+
 # BARRAS APILADAS:
-
 def barras(titulo, valores, df):
-   
+    
+    # DATOS
     df_agrupado = df.groupby(['State', 'Crop_Type'])[valores].sum().reset_index()
-
+    
+    # GRAFICOS
     fig = px.bar(
         df_agrupado, 
         x='State', 
@@ -173,7 +184,8 @@ def barras(titulo, valores, df):
         color_discrete_sequence=verde[::-1],
         template="plotly_white"
     )
-
+    
+    # VISUALES
     fig.update_layout(
         title={
             'text': titulo,
@@ -192,17 +204,20 @@ def barras(titulo, valores, df):
 
     return fig
 
-# HISTORIGRAMA:
 
+# HISTORIGRAMA:
 def histograma(titulo, var, df):
+    
+    # GRAFICOS
     fig = px.histogram(
-        
         df, 
         x=var,
         title=titulo,
         color_discrete_sequence=verde[::-1], 
         template="plotly_dark"
     )
+    
+    # VISUALES
     fig.update_layout(
         title_x=0.5,
         paper_bgcolor='rgba(0,0,0,0)',
@@ -225,8 +240,10 @@ def histograma(titulo, var, df):
 
 # LINEA:
 def linea(titulo, var, df):
+    # DATOS
     df_agrupado = df.groupby("Crop_Year")[var].sum().reset_index()
     
+    # GRAFICOS
     fig = px.line(
     df_agrupado, 
     x="Crop_Year", 
@@ -236,6 +253,7 @@ def linea(titulo, var, df):
     template="plotly_dark"
     )
     
+    # VISUALES
     fig.update_layout(
     height= 450,
     title_x=0.5, 
@@ -255,6 +273,7 @@ def linea(titulo, var, df):
         }
     )
     
+    # TRAZOS
     fig.update_traces(
     line_color='#00ff88', 
     line_width=3,
@@ -265,15 +284,14 @@ def linea(titulo, var, df):
     
     return fig
 
-# BARRAS MARIPOSA:
 
-
-# TOP:
-
+# TOP DE MEJORES:
 def top_mejores(Titulo, var, df, tipo):
+    # DATOS
     top = df.groupby(tipo)[var].sum().reset_index()
     top = top.sort_values(by=var, ascending=True).tail(5)
     
+    # GRAFICO
     fig = px.bar(
     top,
     y=tipo,
@@ -285,12 +303,14 @@ def top_mejores(Titulo, var, df, tipo):
     template="plotly_dark"
     )
     
+    # TRAZOS
     fig.update_traces(
     marker_line_color='rgb(255,255,255)',
     marker_line_width=1.5,
     opacity=0.8
     )
     
+    # VISUALES
     fig.update_layout(
     title_x=0.5,
     xaxis_title=f"{var} Total",
@@ -309,10 +329,14 @@ def top_mejores(Titulo, var, df, tipo):
     
     return fig
 
+
+#TOP MENORES
 def top_peores(titulo, var, df, tipo):
+    # DATOS
     top = df.groupby(tipo)[var].sum().reset_index()
     top = top.sort_values(by=var, ascending=False).tail(5)
     
+    # GRAFICOS
     fig = px.bar(
     top,
     y=tipo,
@@ -324,12 +348,14 @@ def top_peores(titulo, var, df, tipo):
     template="plotly_dark"
     )
     
+    # TRAZOS
     fig.update_traces(
     marker_line_color='rgb(255,255,255)',
     marker_line_width=1.5,
     opacity=0.8
     )
     
+    # VISUALES
     fig.update_layout(
     title_x=0.5,
     xaxis_title=f"{var} Total",
@@ -362,7 +388,8 @@ def outliers(variable, data):
     df = data.drop(atipicos.index)
     
     return df
- 
+
+# NUMERO DE OUTLIERS
 def len_outliers(variable, data):
     Q1 = data[variable].quantile(0.25)
     Q3 = data[variable].quantile(0.75)
@@ -378,10 +405,12 @@ def len_outliers(variable, data):
 
 # Matriz de Correlacion
 def matriz(df):
+    # DATOS
     columnas = ['Production', 'Yield', 'Area']
     df[columnas] = np.log1p(df[columnas])
     matriz_corr = df[columnas].corr()
     
+    # GRAFICO
     fig = px.imshow(
     matriz_corr,
     text_auto='.2f',
@@ -392,6 +421,7 @@ def matriz(df):
     labels=dict(color="Correlación")
      )
     
+    # VISUALES
     fig.update_layout(
     title_x=0.5,
     width=600,
@@ -410,8 +440,11 @@ def matriz(df):
     
 # Comparacion de tiempo:
 def linea_comparacion(df):
+    
+    # PREPARAR DATOS
     df_tendencia = df.groupby('Crop_Year')[['Production', 'Area', 'Yield']].sum().reset_index()
 
+    # GRAFICO
     fig = px.line(
         df_tendencia,
         x='Crop_Year',
@@ -425,6 +458,8 @@ def linea_comparacion(df):
         },
         labels={'value': 'Unidades', 'Crop_Year': 'Año', 'variable': 'Métrica'}
     )
+    
+    # VISUALES
     fig.update_layout(
         title_x=0.5,
         xaxis_title="Año de Cosecha",
@@ -443,10 +478,12 @@ def linea_comparacion(df):
             'font': {'size': 20, 'color': 'white'}
         }
     )
-
+    
+    # EJES
     fig.update_xaxes(showgrid=True, gridwidth=1, gridcolor='rgba(255,255,255,0.1)', dtick=1)
     fig.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgba(255,255,255,0.1)', tickformat='.2s')
-
+    
+    # LINEAS
     fig.update_traces(
         line_width=3,
         marker=dict(size=8, symbol='circle')
@@ -456,6 +493,7 @@ def linea_comparacion(df):
 
 # Dispercion
 def dispercion(titulo, var1, var2, df):
+    # GRAFICO
     fig = px.scatter(
     df, 
     x=var1, 
@@ -470,6 +508,7 @@ def dispercion(titulo, var1, var2, df):
     color_discrete_sequence=verde[::-1]
     )
     
+    # VISUALES
     fig.update_layout(
     title_x=0.5,
     xaxis_title=var1,
@@ -486,11 +525,12 @@ def dispercion(titulo, var1, var2, df):
         }
     )
     
+    # TRAZOS
     fig.update_traces(marker=dict(size=8, opacity=0.6, line=dict(width=0.5, color='white')))
     
     return fig
 
-
+# FORMATO METRICAS
 def formato(num): # Cambiar de formato números muy grandes
         if num >= 1_000_000_000:
             return f"{num/1_000_000_000:.2f} Billones" # NOTA: los "_" no afectan el calculo, solo es para llevar un orden visual

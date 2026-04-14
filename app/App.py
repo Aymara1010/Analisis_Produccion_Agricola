@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 import plotly.express as px
-import graficos as gf
+import app.graficos as gf
 import time
 import requests
 
@@ -90,8 +90,10 @@ if not estado:
     st.warning("⚠️ Por favor, selecciona al menos un Tipo de Cultivo y un Estado para mostrar los datos")
     st.stop()
 
+
 df_filtrado = df[(df["Crop_Year"] >= anio[0]) & (df["Crop_Year"] <= anio[1]) & (df["Crop_Type"].isin(cultivo)) & (df["State"].isin(estado))]
 
+# CARGAR DATOS GEOGRAFICOS:
 resumen_estados = df_filtrado.groupby("State")[[var]].sum().reset_index()
 
 nombres_geo = [f['properties']['NAME_1'] for f in gdf['features']]
@@ -104,7 +106,6 @@ df_mapa = pd.merge(df_base, resumen_estados.drop(columns=['State']), on="match",
 df_mapa[f"{var}_log"] = np.log10(df_mapa[var] + 1)
 
 # UNIDAD DE MEDIDA:
-
 if var == "Production":
     unid = "ton"
 elif var == "Area":
@@ -199,8 +200,7 @@ if pag1.open:
             box = gf.boxplot(f"Variabilidad de {var} por Categoría de Cultivo", var, df_filtrado)
             st.plotly_chart(box, use_container_width=True)  
         
-
-            
+    
     # -------------------------------------------------------------------------
 
     # GRAFICO NIVEL 2 ---------------------------------------------------------
@@ -299,9 +299,6 @@ if pag2.open:
              st.plotly_chart(sector, use_container_width=True)
         # --------------------------------------------------------------------
         
-    
-
-
 
 if pag3.open:
   with pag3: # Análisis General SIN eliminacion de outliers
@@ -350,7 +347,6 @@ if pag3.open:
 
                         > *💡 Nota Técnica:* Para visualizar mejor las relaciones y evitar que los valores extremos compriman la gráfica, se ha optado por utilizar una *escala logarítmica* en los ejes, permitiendo una interpretación más clara de las magnitudes.
                          """)
-             st.markdown("""**IMPORTANTE:** Para visualizar mejor las relaciones se opto por utilizar la escala logaritmica""")
              
         
         with st.container(border=True):
