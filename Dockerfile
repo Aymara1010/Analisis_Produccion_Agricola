@@ -13,8 +13,8 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY app/ .
 
 EXPOSE 8501
 
-CMD ["sh", "-c", "streamlit run app/App.py --server.port $PORT --server.address 0.0.0.0"]
+CMD ["sh", "-c", "streamlit run App.py --server.port $PORT --server.address 0.0.0.0"]
