@@ -313,41 +313,146 @@ En la agricultura se puede utilizar la serie de tiempo para medir el año de cos
 
 \chapter{Marco Metódico}
 
-En este capítulo se visualizarán todas los procedimientos, pruebas y metodologías estadísticas para sustentar la hipótesis planteada en nuestro trabajo. Se detalla el comportamiento de los datos de Agricultura.cvs, técnicas de limpieza (Data Wrangling) y los tests de inferencia utilizados para determinar la significancia estadística de los tipos de cultivos de la India y su producción. En este análisis utilizaremos el lenguaje de programación R, con el Desarrollo de RStudio, empleando empleando el paradigma “Tidyverse” para la manipulación de datos.\
+En este capítulo se describe el proceso de selección de aquellos registros necesarios para cumplir con los objetivos planteados en el capítulo I. Para esto se hará uso de herramientas para el análisis de datos como R y Pandas (librería de Python).\
 
 \section{Bases metódicas utilizadas en el trabajo de investigación}
 
 En la presente investigación fijamos una variable cuantitativa a nivel descriptivo, ya que, se busca caracterizar la situación agrícola procesando datos numéricos de la producción, áreas cultivadas y rendimiento agrícola en la India. Dicho esto se utilizó bases metódicas estadísticas integrando datos cuantitativos y cualitativos.\
 
-\subsubsection{Procesamiento y Limpieza de Datos (ETL)}
+\subsubsection{Verificación de Datos Nulos}
 
-En este trabajo se utilizó el procesamiento y limpieza de datos (ETL), el cual se caracteriza por realizar cambios en la data, permitiendo mover información desde múltiples fuentes hacia un solo destino, facilitando así el análisis y comprensión requerido para la realización de nuestros objetivos. En Este caso se utilizó para extraer los datos obtenidos en el dataset Agricultura.csv
+Con la ayuda de Tidyverse utilizando librerías como los son (“dplyr” y “tidyr”), se escanea el dataset en busca de valores nulos que puedan afectar el análisis. Dando como resultado la ausencia de datos nulos en todas las columnas del dataset original.
 
-Este proceso cuenta de tres fases, como lo son:
+Por lo tanto, podemos decir que no hay datos nulos en el dataset a trabajar.
 
-\begin{itemize}
- \item{\textbf{La extracción:} Se recopiló los datos del dataset dado Agricultura.csv}
- \item{\textbf{La transformación:} En esta fase  se limpio, ordenó y estandarizo los datos  para obtener información de alta calidad.}
- \item{\textbf{La carga:}Por último  los datos ya procesados se almacenan en un sistema de destino, por lo general en un Data Warehouse (Almacén de datos).}
-\end{itemize}
+```{r}
 
-\
+agricultura <- read.csv("../Dataset/Agricultura.csv")
+
+colSums(is.na(agricultura))
+
+```
+
 
 \subsubsection{Selección de Datos Necesarios}
 
-En esta fase se filtraron las columnas del dataset Agricultura.csv para realizar de una manera más eficaz el análisis de las variables. En este caso las variables cuantitativas utilizadas fueron: Crop_Year, Crop, State; destacando además variables explicativas como lo son Production, Area y Yield.\
+Como se mencionó en el Capítulo I, se tomarán los registros anuales entre el periodo  de 1997 hasta el 2009. Esto implica que las variables “Crop_Year” y “Season” serán  filtradas según esas condiciones.\
 
-\subsubsection{Verificación de Datos Faltantes}
+Aparte, se seleccionan únicamente las columnas que contengan las variables necesarias para el estudio, es decir:\
 
-Con la ayuda de Tidyverse utilizando librerías como los son (“dplyr” y “tidyr”), se escaneo el dataset en busca de valores nulos, acomodando así nuestra data.  
+Crop, Crop_Year, Production, Area y Yield.\
 
-\subsubsection{Categorización de Cultivos y Estados}
+```{r}
+
+df <- agricultura %>% 
+  filter( Season == "Whole Year ", Crop_Year < 2010 ) %>% 
+  select(Crop_Year, State, Crop, Production, Area, Yield)
+
+```
+
+
+\subsubsection{Categorización de Cultivos}
 
 Para facilitar el análisis, se agruparon sectores de cultivos creando nueva información colocada en etiquetas. Un cultivo como “Arroz” y “Frijoles” se colocó en la nueva Variable (Crop_Year) como “Cereales y Granos” , permitiendo comparar el crecimiento de cereales básicos con legumbres o cultivos comerciales.\
 
-\subsubsection{Categorización de Cultivos y Estados}
+\begin{itemize}
+ \item{\textbf{Cereales y Granos:} "Rice", "Wheat", "Maize", "Barley", "Jowar", "Bajra", "Ragi", "Small millets", "Tapioca", "Sannhamp"}
+ 
+ \item{\textbf{Leguminosas:} "Arhar/Tur", "Gram", "Horse-gram", "Moong(Green Gram)", "Urad", "Cowpea(Lobia)", "Moth", "Khesari", "Masoor", "Peas & beans (Pulses)"}
+ 
+ \item{\textbf{Oleaginosas:}"Groundnut", "Sesamum", "Sunflower", "Soyabean", "Rapeseed &Mustard", "Castor seed", "Linseed", "Safflower", "Niger seed", "other oilseeds", "Oilseeds total"}
+ 
+ \item{\textbf{Especias, Tubérculos y Hortalizas:} "Dry chillies", "Turmeric", "Cardamom", "Coriander", "Garlic", "Ginger", "Black pepper", "Onion", "Potato", "Sweet potato"}
+ 
+ \item{\textbf{Cultivos Industriales:} "Sugarcane", "Tobacco", "Guar seed"}
+ 
+ \item{\textbf{Fibra:}"Cotton(lint)", "Mesta"}
+ 
+  \item{\textbf{Fibra:}"Coconut ","Arecanut","Cashewnut","Banana"}
+ 
+\end{itemize}\
 
-Por último se identificaron anomalías estadísticas, y se utilizaron los métodos estadísticos correspondientes (moda, media, mediana, rango intercuartílico , media aritmética y varianza) para visualizarla de una mejor manera.\
+```{r}
+
+# Categorias
+cultivos <- list(
+  tipo1 = c("Rice", "Wheat", "Maize", "Barley", "Jowar", "Bajra", "Ragi", "Small millets", "Tapioca", "Sannhamp"),
+  tipo2 = c("Arhar/Tur", "Gram", "Horse-gram", "Moong(Green Gram)", "Urad", "Cowpea(Lobia)", "Moth", "Khesari", "Masoor", "Peas & beans (Pulses)"),
+  tipo3 = c("Groundnut", "Sesamum", "Sunflower", "Soyabean", "Rapeseed &Mustard", "Castor seed", "Linseed", "Safflower", "Niger seed", "other oilseeds", "Oilseeds total"),
+  tipo4 = c("Dry chillies", "Turmeric", "Cardamom", "Coriander", "Garlic", "Ginger", "Black pepper", "Onion", "Potato", "Sweet potato"),
+  tipo5 = c("Sugarcane", "Tobacco", "Guar seed"),
+  tipo6 = c("Cotton(lint)", "Mesta"),
+  tipo7 = c("Coconut ","Arecanut","Cashewnut","Banana"))
+
+# añadir columna
+  df <- df %>% 
+    mutate( Type_Crop = case_when(
+      Crop %in% cultivos$tipo1 ~ "Cereales y Granos",
+      Crop %in% cultivos$tipo2 ~ "Leguminosas ",
+      Crop %in% cultivos$tipo3 ~ "Oleaginosas",
+      Crop %in% cultivos$tipo4 ~ "Especias, Tubérculos y Hortalizas",
+      Crop %in% cultivos$tipo5 ~ "Cultivos Industriales, Fibras y Frutales",
+      Crop %in% cultivos$tipo6 ~ "Fibras",
+      Crop %in% cultivos$tipo7 ~ "Frutales",
+      TRUE ~ "Na") )
+
+```
+
+
+\subsubsection{Control de Outliers}
+
+Para visualizar correctamente la distribución de alguna variable númerica como Production, Area ó Yield, es necesario identificar la cantidad de valores atípicos de cada una, para ello se utilizó el método del rango intercuartílico, con el fin de saber la cantidad de outliers de cada una y el porcentaje que ocupan en la variable.\
+
+```{r}
+# Detección de datos atipicos
+
+# Total de Outliers
+Outliers <- function(Columna, data){
+  Q1 <- quantile(Columna, 0.25)
+Q3 <- quantile(Columna, 0.75)
+RIQ <- Q3 - Q1
+inf <- Q1 - (1.5 * RIQ)
+sup <- Q3 + (1.5 * RIQ)
+if (inf < 0 ){ inf <- 0 }
+outliers <- data[(Columna < inf) | (Columna > sup), ]
+return(nrow(outliers))}
+
+# Sacar el porcentaje:
+porcentaje <- function(columna){
+  porcentaje = (Outliers(columna, df)/2238)*100
+  return(round(porcentaje, 2))
+}
+
+# Tabla de Resumen
+datos_atipicos <- data.frame(
+  Variable = c("Produccion", "Area", "Rendimiento"),
+  Registros = c(nrow(df), nrow(df), nrow(df)),
+  Total_Atipicos = c(Outliers(df$Production, df), Outliers(df$Area, df), Outliers(df$Yield, df)),
+  Porcentaje = c(porcentaje(df$Production), porcentaje(df$Area), porcentaje(df$Yield))
+  )
+
+print(datos_atipicos)
+```
+
+
+```{r}
+# Crear una función para agrupar:
+agrupar_categorias <- function (columna){
+  dataframe <- df %>% 
+    group_by({{columna}}) %>% 
+    summarise(Registros = n(),
+              Production = sum(Production),
+              Area = sum(Area),
+              Yield = sum(Yield))
+  return(dataframe)}
+
+Type_Crop <- agrupar_categorias(Type_Crop)
+State <- agrupar_categorias(State)
+Year <- agrupar_categorias(Crop_Year)
+```
+
+
+\
 
 \chapter{Análisis de Resultados}
 
@@ -487,16 +592,16 @@ colores_agricolas <- colorRampPalette(c("#FFEB3B", "#4CAF50", "#1B5E20"))(200)
 
 par(bg = "black") 
 
-corrplot(matriz_corr, 
-         method = "color", 
-         col = colores_agricolas, 
-         type = "upper", 
-         addCoef.col = "white",    
-         tl.col = "white",         
-         cl.label.col = "white",   
-         bg = "black",             
-         diag = FALSE,
-         outline = TRUE)           
+#corrplot(matriz_corr, 
+ #        method = "color", 
+  #       col = colores_agricolas, 
+   #      type = "upper", 
+    #     addCoef.col = "white",    
+     #    tl.col = "white",         
+      #   cl.label.col = "white",   
+       #  bg = "black",             
+        # diag = FALSE,
+         #outline = TRUE)           
 
 ```
 
@@ -761,4 +866,3 @@ ggplot(Agricultura_Filtrado, aes(x = Production, y = Area, color = Crop_Type)) +
 \chapter{Anexo f}
 
 \chapter{Bibliografia}
-
