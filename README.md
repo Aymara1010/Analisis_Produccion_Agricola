@@ -67,4 +67,4 @@ Realizar un análisis descriptivo de la producción, área cultivada y rendimien
 4. Explicar la distribución de la producción dado la región y tipo de cultivo.
 
 
-###### Dashboard con streamlit: [https://dashboard-analisis-precios-viviendas.onrender.com](https://analisis-produccion-agricola-3.onrender.com/)
+###### Dashboard con streamlit: [https://analisis-produccion-agricola-tf.onrender.com](https://analisis-produccion-agricola-tf.onrender.com/)
