@@ -442,6 +442,9 @@ kable(tabla_resumen,
   kable_styling(latex_options = c("striped", "hold_position"), font_size = 10)
 ```
 
+Como podemos observar existe una gran diferencia entre los promedios y los valores centrales. En las tres variables (Producción, Área y Rendimiento), la Media es muchísimo más alta que la Mediana. Esto significa que tienes unos pocos casos con números gigantescos que "inflan" el promedio, aunque la mayoría de los datos son valores pequeños.
+Por ejemplo, en la Producción, el promedio es de 68 millones, pero el valor central real (mediana) es de apenas 24 mil. La desviación Típica es extremadamente alta, lo que nos dice que los datos están muy dispersos y no se parecen entre sí; hay mucha desigualdad en la eficiencia y el tamaño de las tierras.
+
 
 \subsubsection*{REGIONES CON MAYOR Y MENOR PRODUCCIÓN}
 
