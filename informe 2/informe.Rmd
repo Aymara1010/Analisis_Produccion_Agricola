@@ -1,6 +1,6 @@
 ---
 # --- Metadatos Básicos ---
-title: "Análisis Descriptivo de la Productividad Agrícola en Distintas Regiones de la India Durante el Periodo 1997-2020"
+title: "Análisis Descriptivo de la Productividad Agrícola en Distintas Regiones de la India Durante el Periodo 1997-2009"
 author:
    - Asly Caputo
    - Aymara Andersen
@@ -33,7 +33,11 @@ output:
 
 # --- Resumen (Abstract) ---
 abstract: |
-  El presente informe elabora un análisis estadístico descriptivo sobre la producción y rendimiento agrícola en distintas regiones de la India. Donde se busca estudiar el comportamiento de la producción y rendimiento de varios tipos de cultivos agrícolas, a nivel temporal, geográfico y general, aplicando técnicas estadísticas descriptivas y visualización de datos con R.
+   En el presente estudio se realizará un análisis estadístico descriptivo del sector agrícola en la India, una de las economías a nivel de producción de cultivo más relevantes a nivel global. El objetivo principal es evaluar el comportamiento de la producción, el rendimiento agrícola y el área cultivada en los diversos estados de la India en el periodo comprendido entre 1997-2009 
+   Utilizando el conjunto de datos “Agricultural Crop Yield in Indian States” y herramientas de programación en R y Python se realizará  investigación que nos permitirá decir la variabilidad del sector agrícola teniendo en cuenta factores geográficos y los tipos de cultivos 
+   El estudio analiza una muestra de 2223 datos, enfocándose en variables como la Producción (Production), área (Area), y el rendimiento (Yield) además de factores explicativos 
+   Por último, en los resultados se busca identificar las regiones con mayor productividad, la evolución histórica de los rendimientos y la relación entre el tipo de cultivo y la extensión de tierra utilizada. 
+
 ---
 
 ```{r setup, include=FALSE}
@@ -586,6 +590,16 @@ kable(cor_matrix, digits = 3,
 
 
 
+Relacion entre produccion y rendimiento (r = 0.543):
+La relación más clara está entre la producción y el rendimiento. Esto nos dice que el volumen total de la cosecha depende principalmente de qué tan bien se aprovecha cada hectárea. Básicamente, si quieres producir más, la clave es mejorar la eficiencia de tus cultivos.
+
+Relacion entre produccion y area (r = 0.280):
+La relación entre la Producción y el Área es baja. Esto significa que sembrar más tierra no provoca automáticamente un gran salto en la producción total. En la práctica, es mucho más efectivo trabajar con lo que ya tienes que simplemente tratar de expandirse a más hectáreas.
+
+Relación entre terreno y rendimiento (r = 0.102):
+Casi no hay relación entre el tamaño del terreno y el rendimiento. Esto indica que la eficiencia es la misma sin importar si la parcela es pequeña o grande. No estás ganando beneficios extra por ser más grande, pero tampoco estás perdiendo calidad al crecer.
+
+
 \chapter{Conclusiones y Recomendaciones}
 
 Después de realizar el análisis de datos  en el presente estudio  y observar la evolución de la producción podemos concluir lo siguiente:
@@ -803,8 +817,14 @@ ggplot(Agricultura_Filtrado, aes(x = Production, y = Area, color = Crop_Type)) +
 ```
 
 
-\chapter{Anexo f}
 
 \chapter{Bibliografia}
+
+\textbf{1.} Pinto, S. & Salomón, M. (2015): Análisis descriptivo univariante, material docente. Caracas: Escuela de Estadística y Ciencias Actuariales - UCV.
+
+\textbf{2.} Jairo A. Ayala Godoy RPubs by RStudio
+
+\textbf{3.} 
+Tipos de agricultura en India  GeeksforGeek https://www.geeksforgeeks.org › types-of-agriculture
 
 
