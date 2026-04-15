@@ -1,15 +1,18 @@
 import pandas as pd
-import geopandas as gpd
+import requests
 import plotly.express as px
 import numpy as np
 
+# Cargar datos necesario
 df_csv = pd.read_csv(r"Dataset/Agricultura.csv")
-gdf = gpd.read_file(r"Dataset/india_state.geojson")
+
+# datos geograficos
+url = "https://raw.githubusercontent.com/Aymara1010/ayudenme/main/india_state.geojson"
+geo = requests.get(url)
+gdf = geo.json()
+
 
 # FILTRAR DATAFRAME:
-df_csv = pd.read_csv(r"Dataset/Agricultura.csv")
-
-df_csv['State'] = df_csv['State'].replace({'Jammu & Kashmir' : 'Jammu and Kashmir', 'Odisha': 'Orissa', 'Uttarakhand': 'Uttaranchal'})
 
 def categorizar_cultivos(data):
     categorias = {
@@ -30,53 +33,24 @@ df = df_csv[(df_csv["Season"] == "Whole Year ") & (df_csv["Crop_Year"] < 2010)][
 df = categorizar_cultivos(df)
 df = df.sort_values(by="State")
 
-print(df["State"].unique())
 
-df.to_csv("Agricultura_F.csv", index=False)
+# Extraer estados del geojson
+nombres_geo = [f['properties']['NAME_1'] for f in gdf['features']]
+df_geo = pd.DataFrame({'State': nombres_geo})
 
-def agrupar_df(variable):
-    dataframe = df.groupby(variable)[["Production", "Area", "Yield"]].agg({
-        'Production': 'sum',
-        'Area': 'sum',
-        'Yield': 'sum'}
-    )
-    return dataframe.reset_index()
-
-# FILTRAR GEODATAFRAME:
-
-gdf = gdf.sort_values(by="NAME_1")
-
-def agrupar_df(variable):
-    dataframe = df.groupby(variable)[["Production", "Area", "Yield"]].agg({
-        'Production': 'sum',
-        'Area': 'sum',
-        'Yield': 'sum'}
-    )
-    return dataframe.reset_index()
-
-state = agrupar_df("State")
-
-# Ver elementos Diferentes
+# ver si hay estados faltantes
 estados = set(df['State'].unique())
-estadosgeo = set(gdf["NAME_1"].unique())
+estadosgeo = set(df_geo["State"].unique())
 print(estados - estadosgeo)
 
-# Reemplazar Elementos
+# cambiar nombre de los estados faltantes
 df['State'] = df['State'].replace({'Jammu & Kashmir' : 'Jammu and Kashmir', 'Odisha': 'Orissa', 'Uttarakhand': 'Uttaranchal'})
 
-# Ver Elementos que Coinciden
-estados = set(df['State'].unique())
-estadosgeo = set(gdf["NAME_1"].unique())
-print(estados - estadosgeo)
+print(df["State"].unique())
 
-gdf_final = gdf.merge(state, left_on='NAME_1', right_on=df, how='left')
-gdf_final = gdf_final.drop(columns=['State'])
+df.to_csv("Dataset/Agricultura_Filtrado.csv", index=False)
 
-gdf_final['Production_log'] = np.log10(gdf_final['Production'] + 1)
-gdf_final['Area_log'] = np.log10(gdf_final['Area'] + 1)
-gdf_final['Yield_log'] = np.log10(gdf_final['Yield'] + 1)
 
-gdf_final[['Production_log', 'Area_log', 'Yield_log']] = gdf_final[['Production_log', 'Area_log', 'Yield_log']].fillna(-1)
 
-gdf_final.to_file('India_Filtrado.geojson',driver='GeoJSON' ,index=False)
+
 
