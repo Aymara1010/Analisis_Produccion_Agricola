@@ -20,7 +20,7 @@ El siguiente estudio se encuentra estructurado principalmente en cinco capítulo
 
 **Capítulo II**, se establecen las bases teóricas necesarias para entender cómo abordar el problema de estudio, definiendo conceptos primordiales para la investigación y las técnicas estadísticas necesarias para la resolución del problema.
 
-**Capítulo III**, se describe la metodología utilizada para el análisis de los datos del estudio, esto incluye la descripción detallada del proceso de limpieza de datos (ETL) y las técnicas usadas para la validación de los datos.
+**Capítulo III**, se describe la metodología utilizada para el análisis de los datos del estudio, las técnicas usadas para la validación de los datos.
 
 **Capítulo IV**, se realiza la exposición de los resultados del análisis, respondiendo a las interrogantes de la investigación planteadas en el capítulo I haciendo uso de distintas técnicas de visualización de datos como tablas y gráficos.
 
@@ -60,11 +60,11 @@ Realizar un análisis descriptivo de la producción, área cultivada y rendimien
 
 1.  Comparar la producción, área y rendimiento agrícolas total de la India durante todo el periodo de estudio.
 
-2.  Clasificar los tipos de cultivos según el área cultivada.
+2.  Identificar los cultivos con mayor área.
 
 3.  Evaluar los cambios en la evolución histórica de la producción, área y rendimiento agrícola durante el periodo 1997-2009.
 
 4. Explicar la distribución de la producción dado la región y tipo de cultivo.
 
 
-###### Dashboard con streamlit: [https://analisis-produccion-agricola-tf.onrender.com](https://analisis-produccion-agricola-tf.onrender.com/)
+###### Dashboard con streamlit: (https://agricultura-dashboard.streamlit.app/)
