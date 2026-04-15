@@ -461,6 +461,25 @@ Year <- agrupar_categorias(Crop_Year)
 \subsubsection*{REGIONES CON MAYOR Y MENOR PRODUCCIÓN}
 
 ```{r}
+tabla_resumen <- data.frame(
+  Indicador = c("Production","Area","Yield"),
+  Media = c(mean(df$Production),mean(df$Area),mean(df$Yield)),
+  Mediana = c(median(df$Production),median(df$Area),median(df$Yield)),
+  Desviación_Tipica = c(sd(df$Production),sd(df$Area),sd(df$Yield))
+)
+
+kable(tabla_resumen, 
+      format = "latex", 
+      booktabs = TRUE,
+      caption = "Medidas de Tendencia Central y Dispersión",
+      digits = 2) %>%
+  kable_styling(latex_options = c("striped", "hold_position"), font_size = 10)
+```
+
+
+\subsubsection*{REGIONES CON MAYOR Y MENOR PRODUCCIÓN}
+
+```{r}
 Agricultura_Filtrado <- expand.grid(
   Estado = paste("Estado", 1:30),
   Tipo_Cultivo = c("Cereales", "Leguminosas", "Frutas", "Fibras")
@@ -588,20 +607,16 @@ En el análisis de las barras observamos que la papa, el banano y la caña de az
 
 ```{r}
 
-colores_agricolas <- colorRampPalette(c("#FFEB3B", "#4CAF50", "#1B5E20"))(200)
+# Selección de variables numéricas de ventas
+correlación <- df %>%
+  select(Production, Area, Yield)
 
-par(bg = "black") 
+# Cálculo de la matriz de correlación (Pearson)
+cor_matrix <- cor(correlación, method = "pearson")
 
-#corrplot(matriz_corr, 
- #        method = "color", 
-  #       col = colores_agricolas, 
-   #      type = "upper", 
-    #     addCoef.col = "white",    
-     #    tl.col = "white",         
-      #   cl.label.col = "white",   
-       #  bg = "black",             
-        # diag = FALSE,
-         #outline = TRUE)           
+# Visualización en tabla
+kable(cor_matrix, digits = 3, 
+      caption = "Matriz de Correlación de Producción, Rendimiento y Área")       
 
 ```
 
@@ -613,36 +628,7 @@ par(bg = "black")
 
 
 ```{r}
-df_stats <- Agricultura_Filtrado %>%
-  summarise(across(c(Area, Production, Yield), 
-                   list(Media = ~mean(.x, na.rm = TRUE), 
-                        SD = ~sd(.x, na.rm = TRUE)))) %>%
-  pivot_longer(everything(), names_to = c("Variable", ".value"), names_sep = "_")
 
-ggplot(df_stats, aes(x = Variable, y = Media)) +
-  geom_bar(stat = "identity", fill = "#4CAF50", color = "white", width = 0.6) + 
-  geom_errorbar(aes(ymin = pmax(0, Media - SD), ymax = Media + SD), 
-                width = 0.2, color = "#1B5E20", size = 1.2) +
-  geom_text(aes(label = scales::comma(Media)), 
-            vjust = -1, color = "#FFEB3B", fontface = "bold") +
-  facet_wrap(~Variable, scales = "free") +
-  labs(title = "Comparativa de Medias Agrícolas",
-       subtitle = "Escalas independientes por variable para mayor detalle",
-       y = "Valor ", x = "") +
-  theme_minimal() +
-  theme(
-    plot.background = element_rect(fill = "black"),
-    panel.background = element_rect(fill = "black"),
-    strip.background = element_rect(fill = "#1B5E20"), 
-    strip.text = element_text(color = "white", face = "bold"),
-    panel.grid.major = element_line(color = "#333333"),
-    panel.grid.minor = element_blank(),
-    text = element_text(color = "white"),
-    axis.text.y = element_text(color = "white"),
-    axis.text.x = element_blank(), 
-    axis.title = element_text(color = "white"),
-    plot.title = element_text(size = 16, face = "bold")
-  )
 ```
 
 
