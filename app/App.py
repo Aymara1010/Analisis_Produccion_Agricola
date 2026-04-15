@@ -380,7 +380,7 @@ if pag3.open:
               var1 = "Yield"
               var2 = "Area"
             
-            dispecion = gf.dispercion(f"Gráfico de Disperción de {comparacion} por Tipo de Cultivo",var1, var2, df_filtrado)
+            dispecion = gf.dispercion(f"Gráfico de Dispersión de {comparacion}",var1, var2, df_filtrado)
             st.plotly_chart(dispecion, use_container_width=True)
             
     # ------------------------------------------------------------------------
